@@ -3,8 +3,8 @@
 <url> <loc>https://jasonyoge.github.io/tags</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://jasonyoge.github.io/categories</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://jasonyoge.github.io/pages/about/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://jasonyoge.github.io/pages/contacts/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://jasonyoge.github.io/posts/数据库事务的应用场景</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://jasonyoge.github.io/pages/contacts/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://jasonyoge.github.io/posts/CJS和ESM跨规范引用的分析</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://jasonyoge.github.io/tag/babel</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://jasonyoge.github.io/tag/database</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
