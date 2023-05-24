@@ -4,7 +4,7 @@ export const SITE: Site = {
   website: "https://astro-paper.pages.dev/",
   author: "Sat Naing",
   desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
-  title: "AstroPaper",
+  title: "JasonYoge",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerPage: 3,
@@ -22,32 +22,32 @@ export const LOGO_IMAGE = {
 export const SOCIALS: SocialObjects = [
   {
     name: "Github",
-    href: "https://github.com/satnaing/astro-paper",
-    linkTitle: ` ${SITE.title} on Github`,
+    href: "https://github.com/jasonyoge",
+    linkTitle: ` ${SITE.title} 的 Github`,
+    active: true,
+  },
+  {
+    name: "Mail",
+    href: "mailto:jasonyoge@gmail.com",
+    linkTitle: `给 ${SITE.title} 发邮件`,
     active: true,
   },
   {
     name: "Facebook",
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on Facebook`,
-    active: true,
+    active: false,
   },
   {
     name: "Instagram",
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on Instagram`,
-    active: true,
+    active: false,
   },
   {
     name: "LinkedIn",
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on LinkedIn`,
-    active: true,
-  },
-  {
-    name: "Mail",
-    href: "mailto:yourmail@gmail.com",
-    linkTitle: `Send an email to ${SITE.title}`,
     active: false,
   },
   {
@@ -90,7 +90,7 @@ export const SOCIALS: SocialObjects = [
     name: "TikTok",
     href: "https://github.com/satnaing/astro-paper",
     linkTitle: `${SITE.title} on TikTok`,
-    active: false,
+    active: true,
   },
   {
     name: "CodePen",
