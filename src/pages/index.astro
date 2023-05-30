@@ -41,25 +41,18 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </a>
 
       <p>
-        Hello Guys, This is <span
-          class="font-semibold"
-          style={{ color: "#31A1A8" }}>JasonYoge</span
-        > from China.
-      </p>
-      <p class="ml-4 italic">
-        -- 一个热爱技术的小小程序员
-        <!-- <LinkButton
-          className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
-          href="https://github.com/satnaing/astro-paper#readme"
+        这里是来自 CHINA 的
+        <span class="font-semibold" style={{ color: "#31A1A8" }}>JasonYoge</span
         >
-          README
-        </LinkButton> for more info. -->
+        个人小站.
       </p>
-      <p>我认为技术是自由的，不应该被资本所绑架</p>
-      <p>我认为人人生而特别，不应用统一标准来衡量</p>
-      <p>我相信坚持的理想总会被实现，生命不止于当下，未来也还未到来</p>
-      <p>热爱生活，热爱技术，热爱理想</p>
-      <p>梦想有一天能丈量世界，Love & Peace</p>
+      <p class="ml-4 text-sm italic">-- AKA：一个热爱技术的30+大龄Coder</p>
+      <div class="mt-6 text-center">
+        <p>技术纯粹论支持者、社会达尔文主义批判者</p>
+        <p>坚信每个人都是特别的存在，不因被统一的标准所度量</p>
+        <p>活在当下，热爱技术，追求理想</p>
+        <p>Love & Peace</p>
+      </div>
       {
         // only display if at least one social link is enabled
         socialCount > 0 && (
@@ -111,7 +104,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
       </ul>
       <div class="all-posts-btn-wrapper">
         <LinkButton href="/posts">
-          All Posts
+          查看全部
           <svg xmlns="http://www.w3.org/2000/svg"
             ><path
               d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
