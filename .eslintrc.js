@@ -2,7 +2,7 @@ const { defineConfig } = require("eslint-define-config");
 
 module.exports = defineConfig({
   env: { node: true, es2022: true, browser: true },
-  plugins: ["prettier"],
+  plugins: ["astro", "prettier"],
   extends: [
     "eslint:recommended",
     "plugin:astro/recommended",
