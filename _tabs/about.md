@@ -4,7 +4,7 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-![Desktop View](/assets/imgs/jasonyoge_life.jpeg){: width="280" height="280" style="border-radius: 10px" .w-10 .h-10 .left}
+![Desktop View](/assets/img/jasonyoge_life.jpeg){: width="280" height="280" style="border-radius: 10px" .w-10 .h-10 .left}
 
 ## **Jason Young**
 
@@ -79,7 +79,7 @@ Placeholder
 > under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0
 > International (CC BY 4.0)</a>.<br />
 > Source code samples are licensed under <a href="https://mit-license.org/">MIT</a>
-> OR <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>.
+> OR <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>.
 <br />
 
 **This site is under Fair Use:**
@@ -109,5 +109,3 @@ Placeholder
 > imply
 > that the author endorses or has approved the linked site.
 
-
-[rpl]: https://www.rust-lang.org/ 
