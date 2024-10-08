@@ -231,3 +231,7 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+notion:
+  databases:
+    - id: 7c2dca1445a0479c893d004437bee80d
