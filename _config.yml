@@ -223,6 +223,9 @@ exclude:
   - "*.config.js"
   - package*.json
 
+plugins:
+  - jekyll-notion
+
 jekyll-archives:
   enabled: [categories, tags]
   layouts:
