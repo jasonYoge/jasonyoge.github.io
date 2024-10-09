@@ -4,7 +4,7 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-![Desktop View](/assets/img/jasonyoge_life.jpeg){: width="280" height="280" style="border-radius: 16px" .w-10 .h-10}
+![Desktop View](/assets/img/jasonyoge_life.jpeg){: width="280" height="280" style="border-radius: 16px" .w-10 .h-10 .loading-lazy}
 
 ## **杨雯杰（JasonYoung）**
 
