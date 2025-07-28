@@ -46,7 +46,7 @@ jobs:
           node-version: 20
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --prune
+        run: pnpm install --frozen-lockfile
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
