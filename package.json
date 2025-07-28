@@ -1,6 +1,6 @@
 {
   "name": "multiterm-astro",
-  "description": "A terminal-inspired coding blog built with Astro.",
+  "description": "JasonYoge's personal blog built with Astro.",
   "type": "module",
   "version": "1.0.0",
   "scripts": {
@@ -61,5 +61,8 @@
     "prettier": "3.6.2",
     "prettier-plugin-astro": "0.14.1",
     "sass-embedded": "^1.89.2"
+  },
+  "volta": {
+    "node": "20.19.2"
   }
 }
