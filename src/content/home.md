@@ -2,6 +2,6 @@
 avatarImage:
     src: "./avatar.jpg"
     alt: "My avatar"
-githubCalendar: "stelcodes"
+githubCalendar: "jasonyoge"
 ---
-Welcome to the example site. This site is meant to show off my custom Astro theme/template **MultiTerm** which creates a coder-ready blog complete with an interactive theme changer, RSS, sitemap, tagging, and markdown extensions.
+Welcome to **JasonYoge**'s blog site. This site is meant to show off my hard works which includes but not limited to web development, desktop application, and personal essays etc.
