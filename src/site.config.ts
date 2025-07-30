@@ -27,7 +27,7 @@ const config: SiteConfig = {
       url: '/',
     },
     {
-      name: 'Archive',
+      name: 'Blog',
       url: '/posts',
     },
     {
