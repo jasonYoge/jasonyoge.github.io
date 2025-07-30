@@ -27,6 +27,9 @@ export default defineConfig({
   site: siteConfig.site,
   trailingSlash: "never",
   prefetch: true,
+  image: {
+    service: passthroughImageService(),
+  },
   markdown: {
     remarkPlugins: [
       [remarkDescription, { maxChars: 200 }],

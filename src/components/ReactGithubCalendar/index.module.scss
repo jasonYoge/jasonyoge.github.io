@@ -1,0 +1,11 @@
+.scroll-container {
+  ::-webkit-scrollbar {
+    height: 6px;
+    background: var(--theme-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--theme-accent);
+    border-radius: 3px;
+  }
+}
