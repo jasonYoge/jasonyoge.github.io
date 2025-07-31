@@ -4,7 +4,7 @@ const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
   site: 'http://jasonyoge.github.io/',
   // The name of your site, used in the title and for SEO.
-  title: 'JasonYoge\'s 🍒 Site',
+  title: 'JasonYoge\'s 🍒 Blog',
   // The description of your site, used for SEO and RSS feed.
   description: '你好，我叫杨雯杰，这是我的个人博客～你也可以叫我JasonYoge～',
   // The author of the site, used in the footer, SEO, and RSS feed.
