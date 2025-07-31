@@ -45,7 +45,7 @@ if (addendum.length > 0) {
 >
   <article class="max-w-full py-7.5" data-pagefind-body>
     {
-      postData.coverImage?.files[0].type === 'file' && (
+      postData.coverImage?.files[0]?.type === 'file' && (
         <Image
           src={postData.coverImage?.files[0].file.url}
           alt={postData.coverImage?.files[0].name}
