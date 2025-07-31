@@ -51,6 +51,9 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Build with Astro
+        env:
+          VITE_NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          VITE_NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
         run: |
           pnpm astro build \
             --site "${{ steps.pages.outputs.origin }}" \
