@@ -58,8 +58,6 @@ jobs:
           pnpm astro build \
             --site "${{ steps.pages.outputs.origin }}" \
             --base "${{ steps.pages.outputs.base_path }}"
-          echo "VITE_NOTION_TOKEN=${{ vars.VITE_NOTION_TOKEN }}"
-          echo "VITE_NOTION_DB_ID=${{ vars.VITE_NOTION_DB_ID }}"
       - name: Build Pagefind Index
         run: |
           pnpm run postbuild
