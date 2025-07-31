@@ -23,10 +23,7 @@ const postsCollection = defineCollection({
       tags: transformedPropertySchema.multi_select,
       description: transformedPropertySchema.rich_text.optional(),
       author: propertySchema.people.optional(),
-      coverImage: z.strictObject({
-        src: z.string(),
-        alt: z.string().nullable(),
-      }).optional(),
+      coverImage: propertySchema.files.optional(),
     }),
   }),
 });
