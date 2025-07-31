@@ -12,19 +12,22 @@ const { post } = Astro.props
 
 const { remarkPluginFrontmatter } = await render(post)
 const { minutesRead } = remarkPluginFrontmatter
-const description = remarkPluginFrontmatter.description || post.data.description
+const description = remarkPluginFrontmatter.description || post.data.properties.description
 ---
 
 <article class="w-full py-5 my-4 border-accent/10">
   <h1 class="mb-3 text-2xl text-[var(--theme-h1)] font-semibold">
-    <a href={`/posts/${post.id}`}># {post.data.title}</a>
+    <a href={`/posts/${post.id}`}># {post.data.properties.title}</a>
   </h1>
   <div class="text-foreground/80 my-3">
-    <time>{dateString(post.data.published)}</time>
     {
-      post.data.author && (
+      post.data.properties.date?.created_time &&
+      <time>{dateString(new Date(post.data.properties.date?.created_time))}</time>
+    }
+    {
+      post.data.properties.author?.people[0].name && (
         <span class="before:content-['::'] before:inline-block before:mx-0.5">
-          {post.data.author}
+          {post.data.properties.author?.people[0].name}
         </span>
       )
     }
@@ -38,9 +41,9 @@ const description = remarkPluginFrontmatter.description || post.data.description
   </div>
   {description && <p class="my-4 text-base/7 text-foreground">{description}</p>}
   {
-    post.data.tags && (
+    post.data.properties.tags && (
       <div class="text-accent mb-6">
-        {post.data.tags.map((tag) => (
+        {post.data.properties.tags.map((tag) => (
           <a class="underline mr-4 inline-block" href={`/tags/${encodeURIComponent(tag)}`}>
             #{tag}
           </a>

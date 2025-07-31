@@ -57,7 +57,7 @@ jobs:
             --base "${{ steps.pages.outputs.base_path }}"
       - name: Build Pagefind Index
         run: |
-          pnpm run pagefind --site dist
+          pnpm run postbuild
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -21,10 +21,10 @@ export async function GET(_context: AstroGlobal) {
     description: siteConfig.description,
     site: siteConfig.site,
     items: posts.map((post) => ({
-      title: post.data.title,
-      pubDate: post.data.published,
-      description: post.data.description,
-      author: post.data.author || siteConfig.author,
+      title: post.data.properties.title,
+      pubDate: new Date(post.data.properties.date?.created_time || ''),
+      description: post.data.properties.description,
+      author: (post.data.properties.author?.people[0].name as string) || siteConfig.author,
       link: `/posts/${post.id}`,
       content: sanitizeHtml(parser.render(post.body || ''), {
         allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),

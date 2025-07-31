@@ -1,25 +1,35 @@
 import { defineCollection, z } from 'astro:content'
+import { notionLoader } from 'notion-astro-loader'
 import { glob } from 'astro/loaders'
+import {
+  notionPageSchema,
+  propertySchema,
+  transformedPropertySchema,
+} from "notion-astro-loader/schemas";
 
 const postsCollection = defineCollection({
-  loader: glob({ pattern: ['**/*.md', '**/*.mdx'], base: './src/content/posts' }),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      published: z.coerce.date(),
-      // updated: z.coerce.date().optional(),
-      draft: z.boolean().optional().default(false),
-      description: z.string().optional(),
-      author: z.string().optional(),
-      tags: z.array(z.string()).optional().default([]),
-      coverImage: z
-        .strictObject({
-          src: image(),
-          alt: z.string(),
-        })
-        .optional(),
+  loader: notionLoader({
+    auth: import.meta.env.VITE_NOTION_TOKEN,
+    database_id: import.meta.env.VITE_NOTION_DB_ID,
+    // filter: {
+    //   property: "published",
+    //   checkbox: { equals: true },
+    // },
+  }),
+  schema: notionPageSchema({
+    properties: z.object({
+      title: transformedPropertySchema.title,
+      date: propertySchema.created_time.optional(),
+      tags: transformedPropertySchema.multi_select,
+      description: transformedPropertySchema.rich_text.optional(),
+      author: propertySchema.people.optional(),
+      coverImage: z.strictObject({
+        src: z.string(),
+        alt: z.string().nullable(),
+      }).optional(),
     }),
-})
+  }),
+});
 
 const homeCollection = defineCollection({
   loader: glob({ pattern: ['home.md', 'home.mdx'], base: './src/content' }),

@@ -108,11 +108,13 @@ export function resolveElementStyles(
 }
 
 export async function getSortedPosts() {
-  const allPosts = await getCollection('posts', ({ data }) => {
-    return import.meta.env.PROD ? data.draft !== true : true
-  })
+  const allPosts = await getCollection('posts')
   const sortedPosts = allPosts.sort((a, b) => {
-    return a.data.published > b.data.published ? -1 : 1
+    return a.data.properties.date?.created_time && b.data.properties.date?.created_time
+      ? new Date(a.data.properties.date?.created_time) > new Date(b.data.properties.date?.created_time)
+        ? -1
+        : 1
+      : 0
   })
   return sortedPosts
 }

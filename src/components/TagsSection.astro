@@ -6,11 +6,11 @@ interface Props {
 }
 
 const { posts } = Astro.props
-const tags = new Set<string>([...posts.flatMap((post) => post.data.tags || [])])
+const tags = new Set<string>([...posts.flatMap((post) => post.data.properties.tags || [])])
 
 const tagsWithCount = Array.from(tags)
   .map((tag) => {
-    const count = posts.filter((post) => post.data.tags?.includes(tag)).length
+    const count = posts.filter((post) => post.data.properties.tags?.includes(tag)).length
     return { tag, count }
   })
   .sort((a, b) => b.count - a.count)

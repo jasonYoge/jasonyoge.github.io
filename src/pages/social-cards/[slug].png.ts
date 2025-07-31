@@ -90,9 +90,9 @@ export async function getStaticPaths() {
     .map((post) => ({
       params: { slug: post.id },
       props: {
-        pubDate: post.data.published ? dateString(post.data.published) : undefined,
-        title: post.data.title,
-        author: post.data.author || siteConfig.author,
+        pubDate: post.data.properties.date ? dateString(new Date(post.data.properties.date?.created_time)) : undefined,
+        title: post.data.properties.title,
+        author: (post.data.properties.author?.people[0].name as string) || siteConfig.author,
       },
     }))
     .concat([
