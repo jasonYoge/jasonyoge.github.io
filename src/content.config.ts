@@ -24,6 +24,7 @@ const postsCollection = defineCollection({
       description: transformedPropertySchema.rich_text.optional(),
       author: propertySchema.people.optional(),
       coverImage: propertySchema.files.optional(),
+      published: transformedPropertySchema.checkbox.optional(),
     }),
   }),
 });

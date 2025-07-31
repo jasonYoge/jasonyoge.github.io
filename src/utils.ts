@@ -108,7 +108,7 @@ export function resolveElementStyles(
 }
 
 export async function getSortedPosts() {
-  const allPosts = await getCollection('posts')
+  const allPosts = await getCollection('posts', ({ data }) => data.properties.published)
   const sortedPosts = allPosts.sort((a, b) => {
     return a.data.properties.date?.created_time && b.data.properties.date?.created_time
       ? new Date(a.data.properties.date?.created_time) > new Date(b.data.properties.date?.created_time)
