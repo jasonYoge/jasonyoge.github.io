@@ -168,6 +168,9 @@ importers:
       prettier-plugin-astro:
         specifier: 0.14.1
         version: 0.14.1
+      rehype-expressive-code:
+        specifier: ^0.41.3
+        version: 0.41.3
       sass-embedded:
         specifier: ^1.89.2
         version: 1.89.2

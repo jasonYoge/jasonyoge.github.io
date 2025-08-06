@@ -5,9 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import expressiveCode from "astro-expressive-code";
 import siteConfig from './src/site.config'
-import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import icon from 'astro-icon';
 import { remarkDescription, remarkReadingTime, rehypeTitleFigure } from './src/settings-utils';
 import {fromHtmlIsomorphic} from 'hast-util-from-html-isomorphic'
@@ -21,7 +19,6 @@ import remarkGemoji from "./src/plugins/remark-gemoji" /* for shortcode emoji su
 import rehypePixelated from "./src/plugins/rehype-pixelated"; /* Custom plugin to handle pixelated images */  
 import react from '@astrojs/react';
 
-
 // https://astro.build/config
 export default defineConfig({
   site: siteConfig.site,
@@ -29,6 +26,12 @@ export default defineConfig({
   prefetch: true,
   image: {
     service: passthroughImageService(),
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.amazonaws.com',
+      },
+    ],
   },
   markdown: {
     remarkPlugins: [
@@ -58,12 +61,12 @@ export default defineConfig({
       ],
       rehypeTitleFigure,
       [
-				rehypeExternalLinks,
-				{
-					rel: ["noreferrer", "noopener"],
-					target: "_blank",
-				},
-			],
+        rehypeExternalLinks,
+        {
+          rel: ["noreferrer", "noopener"],
+          target: "_blank",
+        },
+      ],
       rehypeUnwrapImages,
       rehypePixelated,
       rehypeKatex,
@@ -72,19 +75,8 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [sitemap(), expressiveCode({
-    themes: siteConfig.themes.include,
-    useDarkModeMediaQuery: false,
-    defaultProps: {
-      showLineNumbers: false,
-      wrap: false,
-    },
-    plugins: [
-      pluginLineNumbers()
-    ],
-  }), // Must come after expressive-code integration
-  mdx(), icon(), react()],
+  integrations: [sitemap(), mdx(), icon(), react()],
   experimental: {
-    contentIntellisense: true
+    contentIntellisense: true,
   }
 });
