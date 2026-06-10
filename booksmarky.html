@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Booksmarky — AI bookmark organization for Chrome</title>
+    <meta
+      name="description"
+      content="Organize Chrome bookmarks with AI-powered folder suggestions and credit tracking. Review every move before it happens."
+    />
+    <link rel="icon" href="assets/icon-128.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: oklch(1 0 0);
+        --surface: oklch(0.97 0.003 75);
+        --panel: oklch(1 0 0);
+        --ink: oklch(0.21 0.008 55);
+        --muted: oklch(0.48 0.012 55);
+        --subtle: oklch(0.62 0.01 55);
+        --border: oklch(0.91 0.006 75);
+        --accent: oklch(0.55 0.1 180);
+        --accent-hover: oklch(0.48 0.1 180);
+        --accent-soft: oklch(0.94 0.04 180);
+        --positive: oklch(0.52 0.12 160);
+
+        --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+
+        --space-xs: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
+        --space-sm: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+        --space-md: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+        --space-lg: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+        --space-xl: clamp(3rem, 2rem + 4vw, 6rem);
+
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+
+        --shadow-sm: 0 1px 2px oklch(0.21 0.008 55 / 0.06);
+        --shadow-md: 0 8px 24px oklch(0.21 0.008 55 / 0.08);
+
+        --z-sticky: 20;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 120% 70% at 50% -15%, oklch(0.55 0.1 180 / 0.07), transparent 55%),
+          linear-gradient(180deg, oklch(0.99 0.002 75) 0%, var(--bg) 40%);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.15em;
+      }
+
+      a:hover {
+        color: var(--accent-hover);
+      }
+
+      .wrap {
+        width: min(1120px, calc(100% - 2.5rem));
+        margin-inline: auto;
+      }
+
+      .font-display {
+        font-family: var(--font-display);
+        font-weight: 400;
+        letter-spacing: -0.02em;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100;
+        padding: 0.75rem 1rem;
+        background: var(--ink);
+        color: var(--bg);
+        border-radius: var(--radius-sm);
+      }
+
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+      }
+
+      /* Header */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: var(--z-sticky);
+        backdrop-filter: blur(12px);
+        background: oklch(1 0 0 / 0.82);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .site-header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        padding-block: var(--space-sm);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.05rem;
+      }
+
+      .brand img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 6px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.75rem, 2vw, 1.5rem);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a:not(.btn) {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.9375rem;
+      }
+
+      .nav-links a:not(.btn):hover {
+        color: var(--ink);
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1.25rem;
+        border-radius: var(--radius-sm);
+        font-family: inherit;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        line-height: 1.2;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition:
+          background-color 0.2s ease-out,
+          transform 0.2s ease-out;
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: oklch(1 0 0);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        color: oklch(1 0 0);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--panel);
+        color: var(--ink);
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        background: var(--surface);
+        color: var(--ink);
+      }
+
+      .chrome-icon {
+        width: 1.125rem;
+        height: 1.125rem;
+        flex-shrink: 0;
+      }
+
+      /* Hero */
+      .hero {
+        padding-block: var(--space-xl) var(--space-lg);
+      }
+
+      .hero__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        align-items: center;
+      }
+
+      @media (min-width: 900px) {
+        .hero__grid {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+      }
+
+      .hero__copy {
+        max-width: 38rem;
+      }
+
+      .hero h1 {
+        margin: 0 0 var(--space-sm);
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        text-wrap: balance;
+      }
+
+      .hero__lead {
+        margin: 0 0 var(--space-md);
+        font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+        color: var(--muted);
+        max-width: 34ch;
+        text-wrap: pretty;
+      }
+
+      .hero__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: var(--space-md);
+      }
+
+      .hero__note {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--subtle);
+      }
+
+      .hero__visual {
+        position: relative;
+      }
+
+      .hero__frame {
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        background: var(--panel);
+        box-shadow: var(--shadow-md);
+      }
+
+      .hero__frame img {
+        width: 100%;
+      }
+
+      /* Sections */
+      .section {
+        padding-block: var(--space-xl);
+      }
+
+      .section--alt {
+        background: var(--surface);
+        border-block: 1px solid var(--border);
+      }
+
+      .section__head {
+        max-width: 42rem;
+        margin-bottom: var(--space-lg);
+      }
+
+      .section__head h2 {
+        margin: 0 0 var(--space-xs);
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 3.5vw, 2.75rem);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+      }
+
+      .section__head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.0625rem;
+        text-wrap: pretty;
+      }
+
+      /* Features */
+      .feature-list {
+        display: grid;
+        gap: var(--space-lg);
+      }
+
+      .feature {
+        display: grid;
+        gap: var(--space-md);
+        align-items: center;
+      }
+
+      @media (min-width: 768px) {
+        .feature {
+          grid-template-columns: 1fr 1.1fr;
+        }
+
+        .feature:nth-child(even) .feature__media {
+          order: 2;
+        }
+
+        .feature:nth-child(even) .feature__copy {
+          order: 1;
+        }
+      }
+
+      .feature__copy h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.35rem;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+      }
+
+      .feature__copy p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 42ch;
+        text-wrap: pretty;
+      }
+
+      .feature__media {
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        background: var(--panel);
+        box-shadow: var(--shadow-md);
+      }
+
+      /* Pricing */
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: var(--space-md);
+        margin-bottom: var(--space-lg);
+      }
+
+      .plan {
+        position: relative;
+        padding: var(--space-md);
+        background: var(--panel);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+      }
+
+      .plan--featured {
+        border-color: oklch(0.55 0.1 180 / 0.35);
+        background: linear-gradient(180deg, var(--accent-soft) 0%, var(--panel) 45%);
+      }
+
+      .plan__badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-hover);
+        font-size: 0.6875rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .plan__label {
+        margin: 0;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      .plan__credits {
+        margin: 0.35rem 0 0;
+        font-family: var(--font-display);
+        font-size: 2.75rem;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .plan__unit {
+        margin: 0.15rem 0 0;
+        font-size: 0.8125rem;
+        color: var(--subtle);
+      }
+
+      .plan__price-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .plan__compare {
+        margin: 0;
+        font-size: 0.9375rem;
+        color: var(--subtle);
+        text-decoration: line-through;
+      }
+
+      .plan__price {
+        margin: 0;
+        font-size: 1.35rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        color: var(--ink);
+      }
+
+      .plan--featured .plan__price {
+        color: var(--accent-hover);
+      }
+
+      .pricing-note {
+        padding: var(--space-md);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        max-width: 52rem;
+      }
+
+      .pricing-note h3 {
+        margin: 0 0 0.75rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      .pricing-note ul {
+        margin: 0;
+        padding-left: 1.2rem;
+        color: var(--muted);
+      }
+
+      .pricing-note li + li {
+        margin-top: 0.4rem;
+      }
+
+      .pricing-note strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* Privacy */
+      .privacy {
+        max-width: 46rem;
+      }
+
+      .privacy h3 {
+        margin: var(--space-md) 0 0.5rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      .privacy h3:first-child {
+        margin-top: 0;
+      }
+
+      .privacy p,
+      .privacy ul {
+        margin: 0 0 0.75rem;
+        color: var(--muted);
+        text-wrap: pretty;
+      }
+
+      .privacy ul {
+        padding-left: 1.2rem;
+      }
+
+      .privacy li + li {
+        margin-top: 0.35rem;
+      }
+
+      .privacy time {
+        color: var(--subtle);
+        font-size: 0.875rem;
+      }
+
+      /* Footer */
+      .site-footer {
+        padding-block: var(--space-lg);
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .site-footer__inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm);
+      }
+
+      .site-footer p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+
+      .site-footer a {
+        font-weight: 500;
+      }
+
+      /* Motion */
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal {
+        animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      .reveal-delay-1 {
+        animation-delay: 0.08s;
+      }
+
+      .reveal-delay-2 {
+        animation-delay: 0.16s;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .reveal,
+        .reveal-delay-1,
+        .reveal-delay-2 {
+          animation: none;
+        }
+
+        .btn-primary:hover {
+          transform: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav-links li:not(:last-child) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="#top">
+          <img src="assets/icon-128.png" width="32" height="32" alt="" />
+          Booksmarky
+        </a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+          <li>
+            <a
+              class="btn btn-primary"
+              href="https://chromewebstore.google.com/detail/booksmarky/anahmamijokdkhenblncedchkedoeaae?utm_source=item-share-cb"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                />
+              </svg>
+              Add to Chrome
+            </a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero__grid">
+          <div class="hero__copy reveal">
+            <h1>Bookmarks that stay organized — on your terms</h1>
+            <p class="hero__lead">
+              Booksmarky analyzes each page you save and suggests a folder. Nothing moves until you
+              review, apply, or dismiss. Batch organize mode scans existing bookmarks the same way.
+            </p>
+            <div class="hero__actions">
+              <a
+                class="btn btn-primary"
+                href="https://chromewebstore.google.com/detail/booksmarky/anahmamijokdkhenblncedchkedoeaae?utm_source=item-share-cb"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                  />
+                </svg>
+                Install from Chrome Web Store
+              </a>
+              <a class="btn btn-secondary" href="#pricing">View pricing</a>
+            </div>
+            <p class="hero__note">
+              Free to install · 20 welcome credits · Pay only for AI analysis you use
+            </p>
+          </div>
+          <div class="hero__visual reveal reveal-delay-1">
+            <figure class="hero__frame">
+              <img
+                src="assets/pending_suggestion.png"
+                alt="Booksmarky popup showing a pending folder suggestion with apply and dismiss actions"
+                width="1200"
+                height="800"
+                loading="eager"
+              />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="features">
+        <div class="wrap">
+          <header class="section__head reveal">
+            <h2>How it works</h2>
+            <p>
+              AI suggestions fit into your normal browsing flow. Chrome bookmarks always stay under
+              your control.
+            </p>
+          </header>
+
+          <div class="feature-list">
+            <article class="feature reveal">
+              <div class="feature__copy">
+                <h3>Save from any page</h3>
+                <p>
+                  Right-click to save with context. Booksmarky reads the page, suggests a folder,
+                  and lets you confirm before the bookmark is stored.
+                </p>
+              </div>
+              <figure class="feature__media">
+                <img
+                  src="assets/context_menu_add.png"
+                  alt="Chrome context menu with Booksmarky save option and folder picker overlay"
+                  width="900"
+                  height="600"
+                  loading="lazy"
+                />
+              </figure>
+            </article>
+
+            <article class="feature reveal">
+              <div class="feature__copy">
+                <h3>Review pending suggestions</h3>
+                <p>
+                  New bookmarks stay in place until you act. See the recommended folder, confidence
+                  level, and reason — then apply or dismiss when you are ready.
+                </p>
+              </div>
+              <figure class="feature__media">
+                <img
+                  src="assets/sidebar.png"
+                  alt="Booksmarky sidebar with bookmark tree and pending suggestions dock"
+                  width="900"
+                  height="600"
+                  loading="lazy"
+                />
+              </figure>
+            </article>
+
+            <article class="feature reveal">
+              <div class="feature__copy">
+                <h3>Batch organize with preview</h3>
+                <p>
+                  Select bookmarks or entire folders, generate a before-and-after preview, and apply
+                  moves to Chrome only after you confirm.
+                </p>
+              </div>
+              <figure class="feature__media">
+                <img
+                  src="assets/batch_organize.png"
+                  alt="Batch organize preview comparing bookmark folders before and after AI suggestions"
+                  width="900"
+                  height="600"
+                  loading="lazy"
+                />
+              </figure>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="wrap">
+          <header class="section__head reveal">
+            <h2>Simple credit pricing</h2>
+            <p>
+              Credits power AI folder analysis. Purchase packages inside the extension via Creem
+              checkout. No subscription — top up when you need more.
+            </p>
+          </header>
+
+          <div class="pricing-grid reveal">
+            <article class="plan plan--featured">
+              <span class="plan__badge">Launch offer</span>
+              <p class="plan__label">Starter 100</p>
+              <p class="plan__credits">100</p>
+              <p class="plan__unit">credits</p>
+              <div class="plan__price-row">
+                <p class="plan__compare">$4.99</p>
+                <p class="plan__price">$1.99</p>
+              </div>
+            </article>
+
+            <article class="plan plan--featured">
+              <span class="plan__badge">Launch offer</span>
+              <p class="plan__label">Builder 300</p>
+              <p class="plan__credits">300</p>
+              <p class="plan__unit">credits</p>
+              <div class="plan__price-row">
+                <p class="plan__compare">$9.99</p>
+                <p class="plan__price">$3.99</p>
+              </div>
+            </article>
+
+            <article class="plan plan--featured">
+              <span class="plan__badge">Launch offer</span>
+              <p class="plan__label">Power 1000</p>
+              <p class="plan__credits">1000</p>
+              <p class="plan__unit">credits</p>
+              <div class="plan__price-row">
+                <p class="plan__compare">$24.99</p>
+                <p class="plan__price">$9.99</p>
+              </div>
+            </article>
+          </div>
+
+          <aside class="pricing-note reveal">
+            <h3>How credits are used</h3>
+            <ul>
+              <li>
+                <strong>Welcome bonus:</strong> 20 free credits when you first sign in.
+              </li>
+              <li>
+                <strong>Page save &amp; auto-classify:</strong> at least 1 credit per analysis,
+                based on actual AI token usage.
+              </li>
+              <li>
+                <strong>Batch organize preview:</strong> 1–5 credits per preview, depending on how
+                many bookmarks you select (up to 50 per run). Bookmarks already in the right folder
+                are skipped.
+              </li>
+              <li>
+                <strong>Checkout:</strong> purchases are processed by
+                <a href="https://creem.io" rel="noopener noreferrer" target="_blank">Creem</a>.
+                Complete payment in the Creem tab, then return to the extension to see your updated
+                balance.
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="privacy">
+        <div class="wrap">
+          <header class="section__head reveal">
+            <h2>Privacy policy</h2>
+            <p>Last updated: <time datetime="2026-06-10">June 10, 2026</time></p>
+          </header>
+
+          <div class="privacy reveal">
+            <h3>Overview</h3>
+            <p>
+              Booksmarky is a Chrome extension that helps you organize bookmarks with AI-powered
+              folder suggestions. This policy describes what data is processed when you use the
+              extension and our API at
+              <a href="https://booksmarky-api.fly.dev">booksmarky-api.fly.dev</a>.
+            </p>
+
+            <h3>Data we process</h3>
+            <ul>
+              <li>
+                <strong>Bookmark content for analysis:</strong> when you save or organize a
+                bookmark, the extension sends the bookmark title, URL, and a summary list of your
+                existing folder names and paths to our server so the AI can suggest a folder. We do
+                not upload your entire bookmark tree — only what is needed for each request.
+              </li>
+              <li>
+                <strong>Account identity:</strong> sign-in uses Google OAuth. We store a user
+                identifier linked to your Google account to manage credits and usage history.
+              </li>
+              <li>
+                <strong>Credits &amp; billing:</strong> purchase history and credit balance are
+                stored on our server. Payments are handled by Creem; we do not store your full card
+                details.
+              </li>
+              <li>
+                <strong>Extension settings:</strong> preferences such as language and
+                auto-classify toggle are stored locally in Chrome on your device.
+              </li>
+              <li>
+                <strong>Pending suggestions:</strong> suggested moves you have not yet applied are
+                cached locally in the extension until you confirm or dismiss them.
+              </li>
+            </ul>
+
+            <h3>What we do not do</h3>
+            <ul>
+              <li>We do not sell your personal data to third parties.</li>
+              <li>
+                We do not use your data for advertising, credit scoring, or purposes unrelated to
+                bookmark organization.
+              </li>
+              <li>
+                We do not move bookmarks on your behalf without your explicit confirmation inside
+                the extension.
+              </li>
+            </ul>
+
+            <h3>Third-party services</h3>
+            <ul>
+              <li>
+                <strong>DeepSeek</strong> — processes bookmark title, URL, and folder context to
+                generate folder suggestions.
+              </li>
+              <li>
+                <strong>Creem</strong> — processes payments for credit packages.
+              </li>
+              <li>
+                <strong>Google</strong> — provides OAuth sign-in.
+              </li>
+            </ul>
+
+            <h3>Data retention &amp; security</h3>
+            <p>
+              Credit ledger entries are retained for billing and support. API requests are
+              rate-limited. Communications with our server use HTTPS. You can clear your local
+              extension session from the extension settings.
+            </p>
+
+            <h3>Your choices</h3>
+            <p>
+              You can uninstall the extension at any time. To request account deletion or ask
+              privacy questions, contact us at the email below.
+            </p>
+
+            <h3>Contact</h3>
+            <p>
+              <a href="mailto:jasonyoge.us@gmail.com">jasonyoge.us@gmail.com</a>
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>
+          © <span id="year">2026</span> Booksmarky ·
+          <a href="mailto:jasonyoge.us@gmail.com">jasonyoge.us@gmail.com</a>
+        </p>
+        <p>
+          <a href="#privacy">Privacy</a>
+          ·
+          <a
+            href="https://chromewebstore.google.com/detail/booksmarky/anahmamijokdkhenblncedchkedoeaae?utm_source=item-share-cb"
+            rel="noopener noreferrer"
+            target="_blank"
+            >Chrome Web Store</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>
