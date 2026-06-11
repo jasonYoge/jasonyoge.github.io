@@ -26,8 +26,8 @@ jobs:
 
       - name: Prepare site
         run: |
-          mkdir -p _site
-          cp booksmarky.html _site/
+          mkdir -p _site/booksmarky
+          cp booksmarky/index.html booksmarky/terms.html _site/booksmarky/
           cp -r assets _site/
           touch _site/.nojekyll
 

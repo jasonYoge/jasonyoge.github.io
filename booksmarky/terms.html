@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terms of Service — Booksmarky</title>
+    <meta
+      name="description"
+      content="Terms of Service for Booksmarky, the AI-powered Chrome bookmark organizer."
+    />
+    <link rel="icon" href="../assets/icon-128.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: oklch(1 0 0);
+        --surface: oklch(0.97 0.003 75);
+        --ink: oklch(0.21 0.008 55);
+        --muted: oklch(0.48 0.012 55);
+        --subtle: oklch(0.62 0.01 55);
+        --border: oklch(0.91 0.006 75);
+        --accent: oklch(0.55 0.1 180);
+        --accent-hover: oklch(0.48 0.1 180);
+        --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+        --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+        --space-sm: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+        --space-md: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+        --space-lg: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+        --space-xl: clamp(3rem, 2rem + 4vw, 5rem);
+        --radius-sm: 8px;
+        --z-sticky: 20;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 120% 70% at 50% -15%, oklch(0.55 0.1 180 / 0.07), transparent 55%),
+          linear-gradient(180deg, oklch(0.99 0.002 75) 0%, var(--bg) 40%);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.15em;
+      }
+
+      a:hover {
+        color: var(--accent-hover);
+      }
+
+      .wrap {
+        width: min(1120px, calc(100% - 2.5rem));
+        margin-inline: auto;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100;
+        padding: 0.75rem 1rem;
+        background: var(--ink);
+        color: var(--bg);
+        border-radius: var(--radius-sm);
+      }
+
+      .skip-link:focus {
+        left: 1rem;
+        top: 1rem;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: var(--z-sticky);
+        backdrop-filter: blur(12px);
+        background: oklch(1 0 0 / 0.82);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .site-header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        padding-block: var(--space-sm);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.05rem;
+      }
+
+      .brand img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 6px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.75rem, 2vw, 1.5rem);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.9375rem;
+      }
+
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+
+      .legal-page {
+        padding-block: var(--space-xl);
+      }
+
+      .legal-page h1 {
+        margin: 0 0 var(--space-sm);
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        text-wrap: balance;
+      }
+
+      .legal-page__meta {
+        margin: 0 0 var(--space-lg);
+        color: var(--subtle);
+        font-size: 0.875rem;
+      }
+
+      .legal {
+        max-width: 46rem;
+      }
+
+      .legal h2 {
+        margin: var(--space-md) 0 0.5rem;
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+
+      .legal h2:first-child {
+        margin-top: 0;
+      }
+
+      .legal p,
+      .legal ul {
+        margin: 0 0 0.75rem;
+        color: var(--muted);
+        text-wrap: pretty;
+      }
+
+      .legal ul {
+        padding-left: 1.2rem;
+      }
+
+      .legal li + li {
+        margin-top: 0.35rem;
+      }
+
+      .site-footer {
+        padding-block: var(--space-lg);
+        border-top: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .site-footer__inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-sm);
+      }
+
+      .site-footer p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+
+      .site-footer a {
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap site-header__inner">
+        <a class="brand" href="index.html">
+          <img src="../assets/icon-128.png" width="32" height="32" alt="" />
+          Booksmarky
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#privacy">Privacy</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main id="main" class="legal-page">
+      <div class="wrap">
+        <h1>Terms of Service</h1>
+        <p class="legal-page__meta">Last updated: <time datetime="2026-06-10">June 10, 2026</time></p>
+
+        <div class="legal">
+          <h2>Agreement</h2>
+          <p>
+            By installing or using Booksmarky (the Chrome extension, related API, and this website),
+            you agree to these Terms of Service. If you do not agree, do not use the service.
+          </p>
+
+          <h2>Service description</h2>
+          <p>
+            Booksmarky helps you organize Chrome bookmarks with AI-powered folder suggestions.
+            Suggestions are recommendations only — bookmarks are moved in Chrome only when you
+            explicitly confirm an action inside the extension. We do not guarantee that every
+            suggestion will be accurate or suitable for your workflow.
+          </p>
+
+          <h2>Eligibility &amp; accounts</h2>
+          <ul>
+            <li>You must be able to form a binding contract in your jurisdiction.</li>
+            <li>
+              Sign-in uses Google OAuth. You are responsible for activity under your account and for
+              keeping access to your Google account secure.
+            </li>
+            <li>
+              You may not share, resell, or sublicense access to paid credits or attempt to
+              circumvent account or usage limits.
+            </li>
+          </ul>
+
+          <h2>Acceptable use</h2>
+          <p>You agree not to:</p>
+          <ul>
+            <li>
+              Use Booksmarky for unlawful purposes or to process content you do not have the right to
+              use.
+            </li>
+            <li>
+              Abuse, overload, or attempt to reverse-engineer the extension, API, or payment systems.
+            </li>
+            <li>Automate requests in a way that bypasses normal extension use or credit billing.</li>
+            <li>
+              Interfere with other users’ access or with the security or integrity of the service.
+            </li>
+          </ul>
+          <p>
+            We may suspend or terminate access if we reasonably believe you have violated these terms
+            or if continued use poses risk to the service or other users.
+          </p>
+
+          <h2>Credits &amp; payment</h2>
+          <ul>
+            <li>
+              <strong>Credit model:</strong> AI analysis consumes credits from your balance. New
+              users receive a one-time welcome credit grant. Additional credits are sold as prepaid
+              packages inside the extension.
+            </li>
+            <li>
+              <strong>Checkout:</strong> payments are processed by
+              <a href="https://creem.io" rel="noopener noreferrer" target="_blank">Creem</a>. Prices
+              shown at checkout are the amount charged. Launch promotional pricing may change;
+              purchased credits already in your account remain available after a price change.
+            </li>
+            <li>
+              <strong>No subscription:</strong> Booksmarky does not bill on a recurring subscription
+              basis unless we clearly state otherwise in the product UI.
+            </li>
+            <li>
+              <strong>Refunds:</strong> except where required by applicable law, credit purchases
+              are final once credits are added to your balance. If a payment error occurs, contact us
+              promptly at the email below.
+            </li>
+            <li>
+              <strong>Taxes:</strong> you are responsible for any applicable taxes associated with
+              your purchase, as handled by the payment provider.
+            </li>
+          </ul>
+
+          <h2>Our rights &amp; responsibilities</h2>
+          <ul>
+            <li>
+              We may modify, suspend, or discontinue features with reasonable notice when practical.
+              Core bookmark control remains on your device unless you confirm a change.
+            </li>
+            <li>
+              We work to keep the service available and secure, but do not warrant uninterrupted or
+              error-free operation.
+            </li>
+            <li>
+              AI outputs may be incomplete or incorrect. You remain responsible for reviewing
+              suggestions before applying bookmark moves.
+            </li>
+            <li>
+              Booksmarky, its branding, and underlying software are owned by us or our licensors. You
+              receive a limited, non-exclusive license to use the extension for personal or internal
+              business bookmark organization.
+            </li>
+          </ul>
+
+          <h2>Disclaimer &amp; limitation of liability</h2>
+          <p>
+            Booksmarky is provided “as is” and “as available.” To the fullest extent permitted by
+            law, we disclaim implied warranties of merchantability, fitness for a particular purpose,
+            and non-infringement. We are not liable for lost bookmarks, lost data, indirect damages,
+            or consequential damages arising from use of the service. Our total liability for any
+            claim relating to the service is limited to the greater of (a) the amount you paid us for
+            credits in the twelve months before the claim, or (b) USD $50.
+          </p>
+
+          <h2>Changes</h2>
+          <p>
+            We may update these Terms from time to time. The “Last updated” date above will change
+            when we do. Continued use after changes become effective constitutes acceptance of the
+            revised Terms.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Questions about these Terms:
+            <a href="mailto:jasonyoge@gmail.com">jasonyoge@gmail.com</a>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap site-footer__inner">
+        <p>
+          © <span id="year">2026</span> Booksmarky ·
+          <a href="mailto:jasonyoge@gmail.com">jasonyoge@gmail.com</a>
+        </p>
+        <p>
+          <a href="index.html">Home</a>
+          ·
+          <a href="index.html#privacy">Privacy</a>
+          ·
+          <a
+            href="https://chromewebstore.google.com/detail/booksmarky/anahmamijokdkhenblncedchkedoeaae?utm_source=item-share-cb"
+            rel="noopener noreferrer"
+            target="_blank"
+            >Chrome Web Store</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+    </script>
+  </body>
+</html>
