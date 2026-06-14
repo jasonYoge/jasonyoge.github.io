@@ -37,13 +37,7 @@ jobs:
           fi
 
       - name: Prepare site
-        run: |
-          mkdir -p dist
-          cp booksmarky/index.html booksmarky/terms.html dist/
-          cp -r assets dist/
-          sed -i 's|\.\./assets/|assets/|g' dist/index.html dist/terms.html
-          echo "Prepared files:"
-          find dist -type f | sort
+        run: bash scripts/build-site.sh
 
       - name: Install Wrangler
         run: npm install -g wrangler@4
