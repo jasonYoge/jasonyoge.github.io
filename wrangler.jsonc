@@ -2,6 +2,9 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "books-marky",
   "compatibility_date": "2026-01-01",
+  "build": {
+    "command": "bash scripts/build-site.sh"
+  },
   "assets": {
     "directory": "./dist"
   }
