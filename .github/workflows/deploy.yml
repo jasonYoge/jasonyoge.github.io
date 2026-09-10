@@ -26,9 +26,9 @@ jobs:
 
       - name: Prepare site
         run: |
-          mkdir -p _site
-          cp -r booksmarky assets _site/
-          touch _site/.nojekyll
+          npm ci
+          npm run build
+          touch dist/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -36,7 +36,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
