@@ -4,7 +4,7 @@ import './styles.css';
 
 const copy = {
   zh: {
-    navAbout: '关于我', navJourney: '经历', navWorks: '作品', navContact: '联系', lang: 'EN',
+    navAbout: '关于我', navJourney: '经历', navWorks: '作品', navContact: '联系', lang: 'EN', pageTitle: '杨雯杰 · 高级前端工程师 | JasonYoge', metaDescription: '杨雯杰（JasonYoge）的个人作品集：高级前端工程师、独立产品构建者，专注于复杂业务系统与自然的产品体验。',
     label: '个人作品集 · 2026', title: '把复杂的产品，\n做成自然的体验。',
     intro: '我是杨雯杰，一名专注于复杂业务场景的高级前端工程师。过去 {experience}，我在字节跳动、ThoughtWorks 与阿里巴巴，把想法变成可靠、可持续的产品。',
     resume: '下载简历', explore: '查看经历', available: 'OPEN TO OPPORTUNITIES',
@@ -16,7 +16,7 @@ const copy = {
     footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: '工作年限', school: '电子科技大学', major: '计算机应用技术', degree: '硕士'
   },
   en: {
-    navAbout: 'About', navJourney: 'Journey', navWorks: 'Work', navContact: 'Contact', lang: '中',
+    navAbout: 'About', navJourney: 'Journey', navWorks: 'Work', navContact: 'Contact', lang: '中', pageTitle: 'JasonYoge · Senior Frontend Engineer', metaDescription: 'The personal portfolio of Yang Wenjie (JasonYoge), a senior frontend engineer and independent product builder focused on complex systems and natural experiences.',
     label: 'PERSONAL PORTFOLIO · 2026', title: 'Turning complex products\ninto natural experiences.',
     intro: 'I’m Yang Wenjie, a senior frontend engineer focused on complex business systems. Over {experience}, I’ve turned ideas into reliable, lasting products at ByteDance, ThoughtWorks, and Alibaba.',
     resume: 'Download résumé', explore: 'Explore journey', available: 'OPEN TO OPPORTUNITIES',
@@ -67,7 +67,11 @@ function App() {
   const en = locale === 'en';
   const experience = experienceDuration(locale);
   const isScrolled = scrollProgress >= 1;
-  useEffect(() => { document.documentElement.lang = en ? "en" : "zh-CN"; }, [en]);
+  useEffect(() => {
+    document.documentElement.lang = en ? 'en' : 'zh-CN';
+    document.title = t.pageTitle;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', t.metaDescription);
+  }, [en, t]);
   useEffect(() => {
     const onScroll = () => setScrollProgress(Math.min(window.scrollY / 180, 1));
     onScroll();
