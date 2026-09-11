@@ -63,6 +63,19 @@ function App() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  useEffect(() => {
+    const elements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          currentObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
   return <div className="site">
     <header className={`topbar${scrollProgress > 0.02 ? ' is-scrolled' : ''}`} style={{ '--scroll-progress': scrollProgress }}>
       <div className="topbar-inner">
@@ -76,9 +89,9 @@ function App() {
 
     <main id="top">
       <section className="hero" id="about">
-        <div className="hero-photo" role="img" aria-label={en ? 'JasonYoge outdoors' : '杨雯杰在户外的照片'} />
+        <div className="hero-photo motion-photo" role="img" aria-label={en ? 'JasonYoge outdoors' : '杨雯杰在户外的照片'} />
         <div className="hero-gradient" />
-        <div className="hero-content">
+        <div className="hero-content motion-copy">
           <p className="kicker"><span className="red-dot" />{t.label}</p>
           <h1>{t.title.split('\n').map((line, i) => <span key={line}>{line}{i === 0 && <br />}</span>)}</h1>
           <p className="intro">{t.intro.replace('{experience}', experience)}</p>
@@ -90,14 +103,14 @@ function App() {
 
       <section className="journey wrap" id="journey">
         <div className="section-lead"><p className="kicker"><span className="red-dot" />{t.selected}</p><h2>{t.journeyTitle.split('\n').map((line, i) => <span key={line}>{line}{i === 0 && <br />}</span>)}</h2><p>{t.journeyText}</p></div>
-        <div className="career-stack"><article className="opc-entry"><div className="timeline-year"><span>2025.07</span><span>{en ? 'PRESENT' : '至今'}</span></div><div className="timeline-body"><div className="company-line"><h3>{t.opc}</h3><span className="current-tag">{t.now}</span></div><p className="role">{t.role}</p><p className="description">{t.opcText}</p></div></article><div className="timeline">{jobs.map((job) => <article className="timeline-item" key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3></div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></article>)}</div></div>
+        <div className="career-stack"><article className="opc-entry reveal"><div className="timeline-year"><span>2025.07</span><span>{en ? 'PRESENT' : '至今'}</span></div><div className="timeline-body"><div className="company-line"><h3>{t.opc}</h3><span className="current-tag">{t.now}</span></div><p className="role">{t.role}</p><p className="description">{t.opcText}</p></div></article><div className="timeline">{jobs.map((job, index) => <article className="timeline-item reveal" style={{ '--reveal-delay': `${index * 80}ms` }} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3></div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></article>)}</div></div>
       </section>
 
-      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature" href="https://books-marky.com/" target="_blank" rel="noreferrer"><div className="work-shot"><img src="/assets/sidebar.png" alt={en ? 'Booksmarky Chrome extension interface' : 'Booksmarky Chrome 扩展界面'} /></div><div className="work-copy"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></div></a></section>
+      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature reveal" href="https://books-marky.com/" target="_blank" rel="noreferrer"><div className="work-shot"><img src="/assets/sidebar.png" alt={en ? 'Booksmarky Chrome extension interface' : 'Booksmarky Chrome 扩展界面'} /></div><div className="work-copy"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></div></a></section>
 
-      <section className="details wrap"><div><p className="kicker">{t.education}</p><p className="detail-title">{t.school} <span>· {t.major}</span></p><p className="detail-meta">2015.09 — 2018.06 · {t.degree}</p></div><div><p className="kicker">{t.skills}</p><div className="skills"><span>React</span><span>TypeScript</span><span>Node.js</span><span>Garfish</span><span>GraphQL</span><span>AWS</span></div></div></section>
+      <section className="details wrap reveal"><div><p className="kicker">{t.education}</p><p className="detail-title">{t.school} <span>· {t.major}</span></p><p className="detail-meta">2015.09 — 2018.06 · {t.degree}</p></div><div><p className="kicker">{t.skills}</p><div className="skills"><span>React</span><span>TypeScript</span><span>Node.js</span><span>Garfish</span><span>GraphQL</span><span>AWS</span></div></div></section>
 
-      <section className="contact wrap" id="contact"><div><p className="kicker"><span className="red-dot" />{t.contact}</p><h2>{t.contactText}</h2></div><a className="button button-primary" href="mailto:jasonYoge@gmail.com"><Icon name="mail" />{t.mail}</a></section>
+      <section className="contact wrap reveal" id="contact"><div><p className="kicker"><span className="red-dot" />{t.contact}</p><h2>{t.contactText}</h2></div><a className="button button-primary" href="mailto:jasonYoge@gmail.com"><Icon name="mail" />{t.mail}</a></section>
     </main>
     <footer className="footer wrap"><span className="wordmark"><span>J</span>JasonYoge</span><span>{t.footer}</span><a href="https://github.com/jasonYoge" target="_blank" rel="noreferrer">GitHub <Icon name="arrow" /></a></footer>
   </div>;

@@ -12,6 +12,44 @@
 @media (max-width: 520px) { .topbar { padding-top: 1.3rem; } .nav { gap: .8rem; } .nav a { display: none; } h1 { font-size: clamp(2.8rem, 13vw, 4.2rem); } .intro { font-size: .95rem; margin-top: 1.5rem; } .hero-meta { margin-top: 3rem; gap: 1.25rem; } .availability { font-size: .58rem; } .timeline-item { grid-template-columns: 85px 1fr; gap: .75rem; } .timeline-body h3 { font-size: 1.1rem; } .details { grid-template-columns: 1fr; padding-bottom: 6rem; } .contact { display: block; padding-bottom: 6rem; } .contact .button { margin-top: 2rem; } .footer { align-items: flex-start; flex-direction: column; gap: .8rem; } .footer .wordmark { margin-right: 0; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
 
+/* Purposeful motion: a quiet cinematic entrance, then restrained scroll reveals. */
+:root { --ease-out-expo: cubic-bezier(.16, 1, .3, 1); }
+.motion-photo { animation: hero-photo-in 1000ms var(--ease-out-expo) both; }
+.motion-copy { animation: hero-copy-in 760ms var(--ease-out-expo) 120ms both; }
+.motion-copy .kicker { animation: reveal-line 600ms var(--ease-out-expo) 260ms both; }
+.reveal { opacity: 1; transform: none; }
+.reveal.is-visible { animation: section-reveal 700ms var(--ease-out-expo) var(--reveal-delay, 0ms) both; }
+.opc-entry.is-visible { animation-duration: 650ms; }
+.work-feature.is-visible { animation-duration: 820ms; }
+.scroll-cue span { animation: scroll-pulse 1.8s ease-in-out infinite; transform-origin: top; }
+.button:active, .lang:active { transform: scale(.96); }
+
+@keyframes hero-photo-in {
+  from { opacity: 0; transform: scale(.92); filter: saturate(.35) blur(12px); }
+  to { opacity: 1; transform: scale(1); filter: saturate(.8) blur(0); }
+}
+@keyframes hero-copy-in {
+  from { opacity: 0; transform: translate3d(28px, 18px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes reveal-line {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes section-reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scroll-pulse {
+  0%, 100% { opacity: .4; transform: scaleY(.55); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-photo, .motion-copy, .motion-copy .kicker, .reveal.is-visible, .scroll-cue span { animation: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
 /* Full-bleed navigation with breathing room for the fixed layer. */
 .topbar { top: 0; left: 0; right: 0; padding-inline: var(--space); border-radius: 0; }
 .hero { padding-top: 8rem; }
