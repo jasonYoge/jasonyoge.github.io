@@ -4,35 +4,35 @@ import './styles.css';
 
 const copy = {
   zh: {
-    navAbout: '关于我', navJourney: '经历', navContact: '联系', lang: 'EN',
+    navAbout: '关于我', navJourney: '经历', navWorks: '作品', navContact: '联系', lang: 'EN',
     label: '个人作品集 · 2026', title: '把复杂的产品，\n做成自然的体验。',
     intro: '我是杨雯杰，一名专注于复杂业务场景的高级前端工程师。过去 5 年，我在字节跳动、ThoughtWorks 与阿里巴巴，把想法变成可靠、可持续的产品。',
     resume: '下载简历', explore: '查看经历', available: 'OPEN TO OPPORTUNITIES',
     role: '高级前端工程师', location: '成都 / 上海 · 中国',
     selected: '职业轨迹', journeyTitle: '从业务问题出发，\n在工程与体验之间找到答案。',
     journeyText: '我喜欢站在产品、设计与技术的交叉点工作：拆解问题，建立系统，再把每一个细节打磨到位。',
-    now: '现在', present: '至今', education: '教育背景', skills: '常用技术', contact: '让我们聊聊',
+    now: '当前', present: '2025.07', education: '教育背景', skills: '常用技术', contact: '让我们聊聊', works: '个人作品', workTitle: '把想法做成可以被使用的东西。', workText: '目前正在持续构建自己的产品，更多作品会陆续上线。', visit: '访问项目', opc: '个人 OPC',
     contactText: '如果你正在做一件值得认真完成的事，欢迎联系我。', mail: '发送邮件',
     footer: '© 2026 JasonYoge. Designed & built with curiosity.'
   },
   en: {
-    navAbout: 'About', navJourney: 'Journey', navContact: 'Contact', lang: '中',
+    navAbout: 'About', navJourney: 'Journey', navWorks: 'Work', navContact: 'Contact', lang: '中',
     label: 'PERSONAL PORTFOLIO · 2026', title: 'Turning complex products\ninto natural experiences.',
     intro: 'I’m Yang Wenjie, a senior frontend engineer focused on complex business systems. Over the past 5 years, I’ve turned ideas into reliable, lasting products at ByteDance, ThoughtWorks, and Alibaba.',
     resume: 'Download résumé', explore: 'Explore journey', available: 'OPEN TO OPPORTUNITIES',
     role: 'Senior Frontend Engineer', location: 'Chengdu / Shanghai · China',
     selected: 'Career journey', journeyTitle: 'Starting from the problem,\nI find the answer between craft and code.',
     journeyText: 'I enjoy working where product, design, and engineering meet: breaking down complexity, building systems, and polishing every detail.',
-    now: 'NOW', present: 'PRESENT', education: 'Education', skills: 'Toolkit', contact: 'Let’s talk',
+    now: 'NOW', present: '2025.07', education: 'Education', skills: 'Toolkit', contact: 'Let’s talk', works: 'Selected work', workTitle: 'Ideas made tangible, one product at a time.', workText: 'I’m building independent products now. More work is on the way.', visit: 'Visit project', opc: 'Independent OPC',
     contactText: 'If you’re building something worth doing well, I’d love to hear from you.', mail: 'Send an email',
     footer: '© 2026 JasonYoge. Designed & built with curiosity.'
   }
 };
 
 const jobs = [
-  { years: ['2021.04', '2026'], company: '字节跳动 · 商业化技术', en: 'ByteDance · Commercial Technology', role: '高级前端工程师', enRole: 'Senior Frontend Engineer', current: true },
-  { years: ['2019.09', '2021.04'], company: 'ThoughtWorks', en: 'ThoughtWorks', role: 'Developer', enRole: 'Developer' },
-  { years: ['2018.04', '2019.08'], company: '阿里巴巴 · 国际站', en: 'Alibaba · Alibaba.com', role: '前端工程师', enRole: 'Frontend Engineer' }
+  { years: ['2021.04', '2025.07'], company: '字节跳动 · 商业化技术', en: 'ByteDance · Commercial Technology', role: '高级前端工程师', enRole: 'Senior Frontend Engineer', description: '负责线索经营平台、飞鱼 CRM 智能化等复杂业务前端。', enDescription: 'Led frontend work across lead operations and intelligent CRM products.', current: true },
+  { years: ['2019.09', '2021.04'], company: 'ThoughtWorks', en: 'ThoughtWorks', role: 'Developer', enRole: 'Developer', description: '参与 React、AWS、Golang 等多端业务的产品研发。', enDescription: 'Shipped product experiences across React, AWS, and Golang projects.' },
+  { years: ['2018.04', '2019.08'], company: '阿里巴巴 · 国际站', en: 'Alibaba · Alibaba.com', role: '前端工程师', enRole: 'Frontend Engineer', description: '参与国际站 CRM 与钉钉移动端的体验建设。', enDescription: 'Built CRM capabilities and mobile experiences for Alibaba.com.' }
 ];
 
 function Icon({ name }) {
@@ -56,7 +56,7 @@ function App() {
       <div className="topbar-inner">
         <a className="wordmark" href="#top" aria-label="JasonYoge home"><span>J</span>JasonYoge</a>
         <nav className="nav" aria-label="Primary navigation">
-          <a href="#about">{t.navAbout}</a><a href="#journey">{t.navJourney}</a><a href="#contact">{t.navContact}</a>
+          <a href="#about">{t.navAbout}</a><a href="#journey">{t.navJourney}</a><a href="#works">{t.navWorks}</a><a href="#contact">{t.navContact}</a>
           <button className="lang" onClick={() => setLocale(en ? 'zh' : 'en')} aria-label="Switch language">{t.lang}</button>
         </nav>
       </div>
@@ -78,8 +78,10 @@ function App() {
 
       <section className="journey wrap" id="journey">
         <div className="section-lead"><p className="kicker"><span className="red-dot" />{t.selected}</p><h2>{t.journeyTitle.split('\n').map((line, i) => <span key={line}>{line}{i === 0 && <br />}</span>)}</h2><p>{t.journeyText}</p></div>
-        <div className="timeline">{jobs.map((job) => <article className={`timeline-item${job.current ? ' current' : ''}`} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.current ? t.present : job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3>{job.current && <span className="current-tag">{t.now}</span>}</div><p>{en ? job.enRole : job.role}</p></div></article>)}</div>
+        <div className="timeline">{jobs.map((job) => <article className={`timeline-item${job.current ? ' current' : ''}`} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3>{job.current && <span className="current-tag">{t.opc}</span>}</div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></article>)}</div>
       </section>
+
+      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature" href="https://books-marky.com/" target="_blank" rel="noreferrer"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></a></section>
 
       <section className="details wrap"><div><p className="kicker">{t.education}</p><p className="detail-title">电子科技大学 <span>· 计算机应用技术</span></p><p className="detail-meta">2015.09 — 2018.06 · 硕士</p></div><div><p className="kicker">{t.skills}</p><div className="skills"><span>React</span><span>TypeScript</span><span>Node.js</span><span>Garfish</span><span>GraphQL</span><span>AWS</span></div></div></section>
 
