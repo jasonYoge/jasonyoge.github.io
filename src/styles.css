@@ -109,3 +109,13 @@
   .timeline-item::before, .opc-entry::before { transform: none !important; transition: none !important; opacity: 0; }
   .timeline-item:hover::before, .timeline-item:focus-within::before, .opc-entry:hover::before, .opc-entry:focus-within::before { opacity: 1; }
 }
+
+/* Keep the scroll control attached to the viewport, not the hero section. */
+body { overflow-x: clip; }
+.site { overflow: visible; }
+.scroll-cue { position: fixed; z-index: 45; top: 50%; bottom: auto; left: var(--space); min-width: 52px; padding: .8rem .55rem; border: 1px solid var(--line); border-radius: 999px; background: oklch(.12 .005 30 / .92); color: var(--ink); transform: translateY(-50%); transition: border-color 220ms ease, background-color 220ms ease, color 220ms ease; }
+.scroll-cue:hover, .scroll-cue:focus-visible { border-color: var(--red); background: oklch(.18 .02 28 / .96); color: var(--red-bright); }
+@media (max-width: 800px) {
+  .scroll-cue { display: flex; top: auto; right: var(--space); bottom: 1.2rem; left: auto; min-width: 0; padding: .65rem .9rem; border-radius: 3px; writing-mode: horizontal-tb; transform: none; }
+  .scroll-cue-line { width: 28px; height: 1px; }
+}
