@@ -53,11 +53,13 @@ function App() {
   }, []);
   return <div className="site">
     <header className={`topbar${scrollProgress > 0.02 ? ' is-scrolled' : ''}`} style={{ '--scroll-progress': scrollProgress }}>
-      <a className="wordmark" href="#top" aria-label="JasonYoge home"><span>J</span>JasonYoge</a>
-      <nav className="nav" aria-label="Primary navigation">
-        <a href="#about">{t.navAbout}</a><a href="#journey">{t.navJourney}</a><a href="#contact">{t.navContact}</a>
-        <button className="lang" onClick={() => setLocale(en ? 'zh' : 'en')} aria-label="Switch language">{t.lang}</button>
-      </nav>
+      <div className="topbar-inner">
+        <a className="wordmark" href="#top" aria-label="JasonYoge home"><span>J</span>JasonYoge</a>
+        <nav className="nav" aria-label="Primary navigation">
+          <a href="#about">{t.navAbout}</a><a href="#journey">{t.navJourney}</a><a href="#contact">{t.navContact}</a>
+          <button className="lang" onClick={() => setLocale(en ? 'zh' : 'en')} aria-label="Switch language">{t.lang}</button>
+        </nav>
+      </div>
     </header>
 
     <main id="top">
