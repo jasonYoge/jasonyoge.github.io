@@ -6,26 +6,26 @@ const copy = {
   zh: {
     navAbout: '关于我', navJourney: '经历', navWorks: '作品', navContact: '联系', lang: 'EN',
     label: '个人作品集 · 2026', title: '把复杂的产品，\n做成自然的体验。',
-    intro: '我是杨雯杰，一名专注于复杂业务场景的高级前端工程师。过去 5 年，我在字节跳动、ThoughtWorks 与阿里巴巴，把想法变成可靠、可持续的产品。',
+    intro: '我是杨雯杰，一名专注于复杂业务场景的高级前端工程师。过去 {experience}，我在字节跳动、ThoughtWorks 与阿里巴巴，把想法变成可靠、可持续的产品。',
     resume: '下载简历', explore: '查看经历', available: 'OPEN TO OPPORTUNITIES',
     role: '高级前端工程师', location: '成都 / 上海 · 中国',
     selected: '职业轨迹', journeyTitle: '从业务问题出发，\n在工程与体验之间找到答案。',
     journeyText: '我喜欢站在产品、设计与技术的交叉点工作：拆解问题，建立系统，再把每一个细节打磨到位。',
     now: '当前', present: '2025.07', education: '教育背景', skills: '常用技术', contact: '让我们聊聊', works: '个人作品', workTitle: '把想法做成可以被使用的东西。', workText: '目前正在持续构建自己的产品，更多作品会陆续上线。', visit: '访问项目', opc: '个人 OPC',
     contactText: '如果你正在做一件值得认真完成的事，欢迎联系我。', mail: '发送邮件',
-    footer: '© 2026 JasonYoge. Designed & built with curiosity.'
+    footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: '工作年限'
   },
   en: {
     navAbout: 'About', navJourney: 'Journey', navWorks: 'Work', navContact: 'Contact', lang: '中',
     label: 'PERSONAL PORTFOLIO · 2026', title: 'Turning complex products\ninto natural experiences.',
-    intro: 'I’m Yang Wenjie, a senior frontend engineer focused on complex business systems. Over the past 5 years, I’ve turned ideas into reliable, lasting products at ByteDance, ThoughtWorks, and Alibaba.',
+    intro: 'I’m Yang Wenjie, a senior frontend engineer focused on complex business systems. Over {experience}, I’ve turned ideas into reliable, lasting products at ByteDance, ThoughtWorks, and Alibaba.',
     resume: 'Download résumé', explore: 'Explore journey', available: 'OPEN TO OPPORTUNITIES',
     role: 'Senior Frontend Engineer', location: 'Chengdu / Shanghai · China',
     selected: 'Career journey', journeyTitle: 'Starting from the problem,\nI find the answer between craft and code.',
     journeyText: 'I enjoy working where product, design, and engineering meet: breaking down complexity, building systems, and polishing every detail.',
     now: 'NOW', present: '2025.07', education: 'Education', skills: 'Toolkit', contact: 'Let’s talk', works: 'Selected work', workTitle: 'Ideas made tangible, one product at a time.', workText: 'I’m building independent products now. More work is on the way.', visit: 'Visit project', opc: 'Independent OPC',
     contactText: 'If you’re building something worth doing well, I’d love to hear from you.', mail: 'Send an email',
-    footer: '© 2026 JasonYoge. Designed & built with curiosity.'
+    footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: 'EXPERIENCE'
   }
 };
 
@@ -40,11 +40,23 @@ function Icon({ name }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
 }
 
+function experienceDuration(locale) {
+  const start = new Date(2018, 5, 1);
+  const now = new Date();
+  let months = (now.getFullYear() - start.getFullYear()) * 12 + now.getMonth() - start.getMonth();
+  if (now.getDate() < start.getDate()) months -= 1;
+  const years = Math.max(0, Math.floor(months / 12));
+  const remainingMonths = Math.max(0, months % 12);
+  if (locale === 'en') return `${years} year${years === 1 ? '' : 's'}${remainingMonths ? ` ${remainingMonths} month${remainingMonths === 1 ? '' : 's'}` : ''}`;
+  return `${years}年${remainingMonths ? `${remainingMonths}个月` : ''}`;
+}
+
 function App() {
   const [locale, setLocale] = useState('zh');
   const [scrollProgress, setScrollProgress] = useState(0);
   const t = copy[locale];
   const en = locale === 'en';
+  const experience = experienceDuration(locale);
   useEffect(() => {
     const onScroll = () => setScrollProgress(Math.min(window.scrollY / 180, 1));
     onScroll();
@@ -69,9 +81,9 @@ function App() {
         <div className="hero-content">
           <p className="kicker"><span className="red-dot" />{t.label}</p>
           <h1>{t.title.split('\n').map((line, i) => <span key={line}>{line}{i === 0 && <br />}</span>)}</h1>
-          <p className="intro">{t.intro}</p>
+          <p className="intro">{t.intro.replace('{experience}', experience)}</p>
           <div className="hero-actions"><a className="button button-primary" href="/assets/jasonyoge-resume.pdf" download><Icon name="download" />{t.resume}</a><a className="text-link" href="#journey">{t.explore}<Icon name="arrow" /></a></div>
-          <div className="hero-meta"><span><strong>{t.role}</strong>{t.location}</span><span className="availability"><i />{t.available}</span></div>
+          <div className="hero-meta"><span><strong>{t.role}</strong>{t.location}</span><span><strong>{t.experience}</strong>{experience}</span><span className="availability"><i />{t.available}</span></div>
         </div>
         <div className="scroll-cue"><span />SCROLL TO EXPLORE</div>
       </section>
