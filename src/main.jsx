@@ -51,13 +51,22 @@ function experienceDuration(locale) {
   return `${years}年${remainingMonths ? `${remainingMonths}个月` : ''}`;
 }
 
+function CareerEntry({ current = false, index = 0, children }) {
+  return <article className="career-entry reveal" style={{ "--reveal-delay": `${index * 70}ms`, "--turn": index % 2 ? "18deg" : "-18deg", "--slide": index % 2 ? "104%" : "-104%" }}>
+    <div className={current ? "opc-entry career-card" : "timeline-item career-card"} tabIndex={0}>
+      <div className="career-background" aria-hidden="true" />{children}
+    </div>
+  </article>;
+}
+
 function App() {
   const [locale, setLocale] = useState('zh');
   const [scrollProgress, setScrollProgress] = useState(0);
   const t = copy[locale];
   const en = locale === 'en';
   const experience = experienceDuration(locale);
-  const isScrolled = scrollProgress > 0.12;
+  const isScrolled = scrollProgress >= 1;
+  useEffect(() => { document.documentElement.lang = en ? "en" : "zh-CN"; }, [en]);
   useEffect(() => {
     const onScroll = () => setScrollProgress(Math.min(window.scrollY / 180, 1));
     onScroll();
@@ -99,20 +108,20 @@ function App() {
           <div className="hero-actions"><a className="button button-primary" href="/assets/jasonyoge-resume.pdf" download><Icon name="download" />{t.resume}</a><a className="text-link" href="#journey">{t.explore}<Icon name="arrow" /></a></div>
           <div className="hero-meta"><span><strong>{t.role}</strong>{t.location}</span><span><strong>{t.experience}</strong>{experience}</span><span className="availability"><i />{t.available}</span></div>
         </div>
-        <button className={`scroll-cue${isScrolled ? ' is-return' : ''}`} type="button" onClick={() => window.scrollTo({ top: isScrolled ? 0 : document.getElementById('journey').offsetTop, behavior: 'smooth' })} aria-label={isScrolled ? t.backTop : t.scrollExplore}><span className="scroll-cue-line" /><span className="scroll-cue-icon"><Icon name="arrow" /></span><span className="scroll-cue-label">{isScrolled ? t.backTop : t.scrollExplore}</span></button>
       </section>
 
       <section className="journey wrap" id="journey">
         <div className="section-lead"><p className="kicker"><span className="red-dot" />{t.selected}</p><h2>{t.journeyTitle.split('\n').map((line, i) => <span key={line}>{line}{i === 0 && <br />}</span>)}</h2><p>{t.journeyText}</p></div>
-        <div className="career-stack"><article className="opc-entry reveal"><div className="timeline-year"><span>2025.07</span><span>{en ? 'PRESENT' : '至今'}</span></div><div className="timeline-body"><div className="company-line"><h3>{t.opc}</h3><span className="current-tag">{t.now}</span></div><p className="role">{t.role}</p><p className="description">{t.opcText}</p></div></article><div className="timeline">{jobs.map((job, index) => <article className="timeline-item reveal" style={{ '--reveal-delay': `${index * 80}ms` }} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3></div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></article>)}</div></div>
+        <div className="career-stack"><CareerEntry current><div className="timeline-year"><span>2025.07</span><span>{en ? 'PRESENT' : '至今'}</span></div><div className="timeline-body"><div className="company-line"><h3>{t.opc}</h3><span className="current-tag">{t.now}</span></div><p className="role">{t.role}</p><p className="description">{t.opcText}</p></div></CareerEntry><div className="timeline">{jobs.map((job, index) => <CareerEntry index={index} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3></div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></CareerEntry>)}</div></div>
       </section>
 
-      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature reveal" href="https://books-marky.com/" target="_blank" rel="noreferrer"><div className="work-shot"><img src="/assets/sidebar.png" alt={en ? 'Booksmarky Chrome extension interface' : 'Booksmarky Chrome 扩展界面'} /></div><div className="work-copy"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></div></a></section>
+      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature reveal" href="https://books-marky.com/" target="_blank" rel="noreferrer"><div className="work-shot"><img loading="lazy" width="1600" height="800" src="/assets/sidebar.png" alt={en ? 'Booksmarky Chrome extension interface' : 'Booksmarky Chrome 扩展界面'} /></div><div className="work-copy"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></div></a></section>
 
       <section className="details wrap reveal"><div><p className="kicker">{t.education}</p><p className="detail-title">{t.school} <span>· {t.major}</span></p><p className="detail-meta">2015.09 — 2018.06 · {t.degree}</p></div><div><p className="kicker">{t.skills}</p><div className="skills"><span>React</span><span>TypeScript</span><span>Node.js</span><span>Garfish</span><span>GraphQL</span><span>AWS</span></div></div></section>
 
       <section className="contact wrap reveal" id="contact"><div><p className="kicker"><span className="red-dot" />{t.contact}</p><h2>{t.contactText}</h2></div><a className="button button-primary" href="mailto:jasonYoge@gmail.com"><Icon name="mail" />{t.mail}</a></section>
     </main>
+    <button className={`scroll-cue${isScrolled ? " is-return" : ""}`} type="button" onClick={() => window.scrollTo({ top: isScrolled ? 0 : document.getElementById("journey").offsetTop - 110, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })} aria-label={isScrolled ? t.backTop : t.scrollExplore}><span className="scroll-cue-icon"><Icon name="arrow" /></span><span>{isScrolled ? t.backTop : t.scrollExplore}</span></button>
     <footer className="footer wrap"><span className="wordmark"><span>J</span>JasonYoge</span><span>{t.footer}</span><a href="https://github.com/jasonYoge" target="_blank" rel="noreferrer">GitHub <Icon name="arrow" /></a></footer>
   </div>;
 }
