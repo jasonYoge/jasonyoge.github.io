@@ -52,7 +52,8 @@ function experienceDuration(locale) {
 }
 
 function CareerEntry({ current = false, index = 0, children }) {
-  return <article className="career-entry reveal" style={{ "--reveal-delay": `${index * 70}ms`, "--turn": index % 2 ? "18deg" : "-18deg", "--slide": index % 2 ? "104%" : "-104%" }}>
+  const position = current ? 0 : index + 1;
+  return <article className="career-entry reveal" style={{ "--reveal-delay": `${position * 70}ms`, "--turn": position % 2 ? "18deg" : "-18deg", "--slide": position % 2 ? "104%" : "-104%" }}>
     <div className={current ? "opc-entry career-card" : "timeline-item career-card"} tabIndex={0}>
       <div className="career-background" aria-hidden="true" />{children}
     </div>

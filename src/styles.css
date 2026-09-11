@@ -225,3 +225,9 @@ body { overflow-x: clip; }
   .career-entry .career-card, .skills span:hover { transform: none !important; }
   .career-background::before { transition: none; }
 }
+
+@media (min-width: 801px) {
+  .opc-entry .timeline-year { grid-column: 3; padding-right: 0; padding-left: 1.5rem; text-align: left; }
+  .opc-entry .timeline-body { grid-column: 1; padding-left: 0; padding-right: 1.5rem; text-align: right; }
+  .opc-entry .company-line { justify-content: flex-end; }
+}
