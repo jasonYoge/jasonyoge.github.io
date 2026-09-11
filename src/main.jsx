@@ -11,7 +11,7 @@ const copy = {
     role: '高级前端工程师', location: '成都 / 上海 · 中国',
     selected: '职业轨迹', journeyTitle: '从业务问题出发，\n在工程与体验之间找到答案。',
     journeyText: '我喜欢站在产品、设计与技术的交叉点工作：拆解问题，建立系统，再把每一个细节打磨到位。',
-    now: '当前', present: '2025.07', education: '教育背景', skills: '常用技术', contact: '让我们聊聊', works: '个人作品', workTitle: '把想法做成可以被使用的东西。', workText: '目前正在持续构建自己的产品，更多作品会陆续上线。', visit: '访问项目', opc: '个人 OPC',
+    now: '当前', present: '2025.07', education: '教育背景', skills: '常用技术', contact: '让我们聊聊', works: '个人作品', workTitle: '把想法做成可以被使用的东西。', workText: '目前正在持续构建自己的产品，更多作品会陆续上线。', visit: '访问项目', opc: '个人 OPC', opcText: '独立构建产品与探索新的可能。',
     contactText: '如果你正在做一件值得认真完成的事，欢迎联系我。', mail: '发送邮件',
     footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: '工作年限', school: '电子科技大学', major: '计算机应用技术', degree: '硕士'
   },
@@ -23,7 +23,7 @@ const copy = {
     role: 'Senior Frontend Engineer', location: 'Chengdu / Shanghai · China',
     selected: 'Career journey', journeyTitle: 'Starting from the problem,\nI find the answer between craft and code.',
     journeyText: 'I enjoy working where product, design, and engineering meet: breaking down complexity, building systems, and polishing every detail.',
-    now: 'NOW', present: '2025.07', education: 'Education', skills: 'Toolkit', contact: 'Let’s talk', works: 'Selected work', workTitle: 'Ideas made tangible, one product at a time.', workText: 'I’m building independent products now. More work is on the way.', visit: 'Visit project', opc: 'Independent OPC',
+    now: 'NOW', present: '2025.07', education: 'Education', skills: 'Toolkit', contact: 'Let’s talk', works: 'Selected work', workTitle: 'Ideas made tangible, one product at a time.', workText: 'I’m building independent products now. More work is on the way.', visit: 'Visit project', opc: 'Independent OPC', opcText: 'Building independent products and exploring what’s next.',
     contactText: 'If you’re building something worth doing well, I’d love to hear from you.', mail: 'Send an email',
     footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: 'EXPERIENCE', school: 'University of Electronic Science and Technology of China', major: 'Computer Applications Technology', degree: 'Master’s degree'
   }
@@ -90,7 +90,7 @@ function App() {
 
       <section className="journey wrap" id="journey">
         <div className="section-lead"><p className="kicker"><span className="red-dot" />{t.selected}</p><h2>{t.journeyTitle.split('\n').map((line, i) => <span key={line}>{line}{i === 0 && <br />}</span>)}</h2><p>{t.journeyText}</p></div>
-        <div className="timeline">{jobs.map((job) => <article className={`timeline-item${job.current ? ' current' : ''}`} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3>{job.current && <span className="current-tag">{t.opc}</span>}</div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></article>)}</div>
+        <div className="career-stack"><article className="opc-entry"><div className="timeline-year"><span>2025.07</span><span>{en ? 'PRESENT' : '至今'}</span></div><div className="timeline-body"><div className="company-line"><h3>{t.opc}</h3><span className="current-tag">{t.now}</span></div><p className="role">{t.role}</p><p className="description">{t.opcText}</p></div></article><div className="timeline">{jobs.map((job) => <article className="timeline-item" key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3></div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></article>)}</div></div>
       </section>
 
       <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature" href="https://books-marky.com/" target="_blank" rel="noreferrer"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></a></section>
