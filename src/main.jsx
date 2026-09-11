@@ -1,4 +1,4 @@
-import { StrictMode, useState } from 'react';
+import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
@@ -42,10 +42,17 @@ function Icon({ name }) {
 
 function App() {
   const [locale, setLocale] = useState('zh');
+  const [scrollProgress, setScrollProgress] = useState(0);
   const t = copy[locale];
   const en = locale === 'en';
+  useEffect(() => {
+    const onScroll = () => setScrollProgress(Math.min(window.scrollY / 180, 1));
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   return <div className="site">
-    <header className="topbar">
+    <header className={`topbar${scrollProgress > 0.02 ? ' is-scrolled' : ''}`} style={{ '--scroll-progress': scrollProgress }}>
       <a className="wordmark" href="#top" aria-label="JasonYoge home"><span>J</span>JasonYoge</a>
       <nav className="nav" aria-label="Primary navigation">
         <a href="#about">{t.navAbout}</a><a href="#journey">{t.navJourney}</a><a href="#contact">{t.navContact}</a>
