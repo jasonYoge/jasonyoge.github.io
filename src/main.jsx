@@ -12,7 +12,7 @@ const copy = {
     selected: '职业轨迹', journeyTitle: '从业务问题出发，\n在工程与体验之间找到答案。',
     journeyText: '我喜欢站在产品、设计与技术的交叉点工作：拆解问题，建立系统，再把每一个细节打磨到位。',
     now: '当前', present: '2025.07', education: '教育背景', skills: '常用技术', contact: '让我们聊聊', works: '个人作品', workTitle: '把想法做成可以被使用的东西。', workText: '目前正在持续构建自己的产品，更多作品会陆续上线。', visit: '访问项目', opc: '个人 OPC', opcText: '独立构建产品与探索新的可能。',
-    contactText: '如果你正在做一件值得认真完成的事，欢迎联系我。', mail: '发送邮件',
+    contactText: '如果你正在做一件值得认真完成的事，欢迎联系我。', mail: '发送邮件', scrollExplore: '向下探索', backTop: '返回顶部',
     footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: '工作年限', school: '电子科技大学', major: '计算机应用技术', degree: '硕士'
   },
   en: {
@@ -24,7 +24,7 @@ const copy = {
     selected: 'Career journey', journeyTitle: 'Starting from the problem,\nI find the answer between craft and code.',
     journeyText: 'I enjoy working where product, design, and engineering meet: breaking down complexity, building systems, and polishing every detail.',
     now: 'NOW', present: '2025.07', education: 'Education', skills: 'Toolkit', contact: 'Let’s talk', works: 'Selected work', workTitle: 'Ideas made tangible, one product at a time.', workText: 'I’m building independent products now. More work is on the way.', visit: 'Visit project', opc: 'Independent OPC', opcText: 'Building independent products and exploring what’s next.',
-    contactText: 'If you’re building something worth doing well, I’d love to hear from you.', mail: 'Send an email',
+    contactText: 'If you’re building something worth doing well, I’d love to hear from you.', mail: 'Send an email', scrollExplore: 'SCROLL TO EXPLORE', backTop: 'BACK TO TOP',
     footer: '© 2026 JasonYoge. Designed & built with curiosity.', experience: 'EXPERIENCE', school: 'University of Electronic Science and Technology of China', major: 'Computer Applications Technology', degree: 'Master’s degree'
   }
 };
@@ -57,6 +57,7 @@ function App() {
   const t = copy[locale];
   const en = locale === 'en';
   const experience = experienceDuration(locale);
+  const isScrolled = scrollProgress > 0.12;
   useEffect(() => {
     const onScroll = () => setScrollProgress(Math.min(window.scrollY / 180, 1));
     onScroll();
@@ -98,7 +99,7 @@ function App() {
           <div className="hero-actions"><a className="button button-primary" href="/assets/jasonyoge-resume.pdf" download><Icon name="download" />{t.resume}</a><a className="text-link" href="#journey">{t.explore}<Icon name="arrow" /></a></div>
           <div className="hero-meta"><span><strong>{t.role}</strong>{t.location}</span><span><strong>{t.experience}</strong>{experience}</span><span className="availability"><i />{t.available}</span></div>
         </div>
-        <div className="scroll-cue"><span />SCROLL TO EXPLORE</div>
+        <button className={`scroll-cue${isScrolled ? ' is-return' : ''}`} type="button" onClick={() => window.scrollTo({ top: isScrolled ? 0 : document.getElementById('journey').offsetTop, behavior: 'smooth' })} aria-label={isScrolled ? t.backTop : t.scrollExplore}><span className="scroll-cue-line" /><span className="scroll-cue-icon"><Icon name="arrow" /></span><span className="scroll-cue-label">{isScrolled ? t.backTop : t.scrollExplore}</span></button>
       </section>
 
       <section className="journey wrap" id="journey">
