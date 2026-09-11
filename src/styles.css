@@ -56,7 +56,7 @@
 .topbar { top: auto; left: auto; right: auto; inset-block-start: 0; inset-inline: 0; width: 100%; padding-inline: 0; }
 .topbar-inner { width: min(1160px, calc(100% - 2 * var(--space))); min-width: min(320px, calc(100% - 2 * var(--space))); margin-inline: auto; padding: 1rem 0; display: flex; align-items: center; justify-content: space-between; }
 .topbar-inner { width: 100%; max-width: none; min-width: 0; padding-inline: var(--space); }
-.career-stack { min-width: 0; }
+.career-stack { min-width: 0; perspective: 1100px; perspective-origin: center center; }
 .opc-entry { display: grid; grid-template-columns: 1fr 56px 1fr; gap: 0; margin-bottom: 1.5rem; padding: 1.2rem 0 2.25rem; border-bottom: 1px solid var(--red); }
 .opc-entry .timeline-year { grid-column: 1; grid-row: 1; align-self: start; padding-right: 1.5rem; text-align: right; color: var(--red-bright); }
 .opc-entry .timeline-body { grid-column: 3; grid-row: 1; padding-left: 1.5rem; }
@@ -91,16 +91,17 @@
 @media (max-width: 800px) { .timeline::before { left: 0; } .opc-entry { grid-template-columns: 76px 1fr; gap: 1rem; padding: 1.2rem 0 1.7rem 1.25rem; } .opc-entry .timeline-year { grid-column: 1; grid-row: 1; padding: 0; text-align: left; } .opc-entry .timeline-body { grid-column: 2; grid-row: 1; padding: 0; } .timeline-item, .timeline-item:nth-child(even) { grid-template-columns: 76px 1fr; gap: 1rem; padding: 1.7rem 0 1.7rem 1.25rem; } .timeline-year, .timeline-item:nth-child(even) .timeline-year { grid-column: 1; grid-row: 1; padding: 0; text-align: left; } .timeline-body, .timeline-item:nth-child(even) .timeline-body { grid-column: 2; grid-row: 1; padding: 0; text-align: left; } .timeline-item:nth-child(even) .company-line { justify-content: flex-start; } .timeline-item:nth-child(even) .description { margin-left: 0; } .work-copy { grid-template-columns: 40px 1fr; } .work-arrow { grid-column: 2; grid-row: 2; justify-self: start; } .work-description { grid-column: 2; } .works { grid-template-columns: 1fr; gap: 4rem; } }
 
 /* Timeline interaction: directional cards with a deeper cyberpunk-style Z-axis turn. */
-.timeline-item, .opc-entry { position: relative; isolation: isolate; overflow: hidden; transform-style: preserve-3d; transition: transform 420ms var(--ease-out-expo), border-color 220ms ease, background-color 220ms ease; }
+.timeline, .timeline-item, .opc-entry { transform-style: preserve-3d; }
+.timeline-item, .opc-entry { position: relative; isolation: isolate; overflow: hidden; transform-origin: center center; transition: transform 420ms var(--ease-out-expo), border-color 220ms ease, background-color 220ms ease; }
 .timeline-item::before, .opc-entry::before { content: ''; position: absolute; z-index: 0; inset: 0; background: linear-gradient(105deg, oklch(.57 .23 27 / .26), oklch(.3 .05 28 / .14) 46%, transparent 82%); transform: translateX(-112%) skewX(-10deg); transition: transform 460ms var(--ease-out-expo); pointer-events: none; }
 .timeline-item::after, .opc-entry::after { content: ''; position: absolute; z-index: 0; top: 0; bottom: 0; left: 0; width: 2px; background: var(--red-bright); opacity: 0; transform: translateX(-12px); transition: opacity 220ms ease, transform 420ms var(--ease-out-expo); pointer-events: none; }
 .timeline-item > *, .opc-entry > * { position: relative; z-index: 1; }
-.timeline-item:hover, .timeline-item:focus-within, .opc-entry:hover, .opc-entry:focus-within { border-color: var(--red); background-color: oklch(.17 .018 28 / .45); transform: perspective(900px) translateX(18px) rotateY(-10deg) rotateX(1.5deg) translateZ(10px); }
+.timeline-item:hover, .timeline-item:focus-within, .opc-entry:hover, .opc-entry:focus-within { border-color: var(--red); background-color: oklch(.17 .018 28 / .45); transform: translateX(22px) rotateY(-18deg) rotateX(2deg) translateZ(18px); }
 .timeline-item:hover::before, .timeline-item:focus-within::before, .opc-entry:hover::before, .opc-entry:focus-within::before { transform: translateX(0) skewX(-10deg); }
 .timeline-item:hover::after, .timeline-item:focus-within::after, .opc-entry:hover::after, .opc-entry:focus-within::after { opacity: 1; transform: translateX(10px); }
 .timeline-item:nth-child(even)::before { transform: translateX(112%) skewX(10deg); background: linear-gradient(255deg, oklch(.57 .23 27 / .26), oklch(.3 .05 28 / .14) 46%, transparent 82%); }
 .timeline-item:nth-child(even)::after { left: auto; right: 0; transform: translateX(12px); }
-.timeline-item:nth-child(even):hover, .timeline-item:nth-child(even):focus-within { transform: perspective(900px) translateX(-18px) rotateY(10deg) rotateX(1.5deg) translateZ(10px); }
+.timeline-item:nth-child(even):hover, .timeline-item:nth-child(even):focus-within { transform: translateX(-22px) rotateY(18deg) rotateX(2deg) translateZ(18px); }
 .timeline-item:nth-child(even):hover::before, .timeline-item:nth-child(even):focus-within::before { transform: translateX(0) skewX(10deg); }
 .timeline-item:nth-child(even):hover::after, .timeline-item:nth-child(even):focus-within::after { transform: translateX(-10px); }
 @media (prefers-reduced-motion: reduce) {
