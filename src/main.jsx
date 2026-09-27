@@ -49,8 +49,8 @@ const projects = [
     name: 'Model Ledger',
     url: 'https://www.modelledger.trade/',
     image: '/assets/model-ledger.png',
-    zhDescription: '可控的模型访问、预算与用量结算平台',
-    enDescription: 'Controlled model access, budgets, and usage settlement',
+    zhDescription: '撮合 AI 模型 Token 供需交易的平台',
+    enDescription: 'A marketplace matching buyers and sellers of AI model tokens',
     zhAlt: 'Model Ledger 模型访问平台首页',
     enAlt: 'Model Ledger model access platform homepage'
   }
