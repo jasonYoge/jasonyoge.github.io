@@ -112,6 +112,48 @@ function App() {
     elements.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
   }, []);
+  useEffect(() => {
+    const hero = document.querySelector('.hero');
+    const photo = document.querySelector('.hero-photo');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!hero || !photo || !finePointer.matches || reducedMotion.matches) return undefined;
+
+    let frame = 0;
+    const resetPhoto = () => {
+      photo.style.setProperty('--photo-x', '0px');
+      photo.style.setProperty('--photo-y', '0px');
+      photo.style.setProperty('--photo-rotate-x', '0deg');
+      photo.style.setProperty('--photo-rotate-y', '0deg');
+      photo.style.setProperty('--photo-light', '0');
+    };
+    const movePhoto = (event) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const heroRect = hero.getBoundingClientRect();
+        const photoRect = photo.getBoundingClientRect();
+        const x = Math.max(-1, Math.min(1, ((event.clientX - heroRect.left) / heroRect.width - 0.5) * 2));
+        const y = Math.max(-1, Math.min(1, ((event.clientY - heroRect.top) / heroRect.height - 0.5) * 2));
+        const lightX = Math.max(15, Math.min(85, ((event.clientX - photoRect.left) / photoRect.width) * 100));
+        const lightY = Math.max(15, Math.min(85, ((event.clientY - photoRect.top) / photoRect.height) * 100));
+        photo.style.setProperty('--photo-x', `${x * 10}px`);
+        photo.style.setProperty('--photo-y', `${y * 8}px`);
+        photo.style.setProperty('--photo-rotate-x', `${y * -1.5}deg`);
+        photo.style.setProperty('--photo-rotate-y', `${x * 1.8}deg`);
+        photo.style.setProperty('--photo-light-x', `${lightX}%`);
+        photo.style.setProperty('--photo-light-y', `${lightY}%`);
+        photo.style.setProperty('--photo-light', '1');
+      });
+    };
+
+    hero.addEventListener('pointermove', movePhoto, { passive: true });
+    hero.addEventListener('pointerleave', resetPhoto);
+    return () => {
+      cancelAnimationFrame(frame);
+      hero.removeEventListener('pointermove', movePhoto);
+      hero.removeEventListener('pointerleave', resetPhoto);
+    };
+  }, []);
   return <div className="site">
     <header className={`topbar${scrollProgress > 0.02 ? ' is-scrolled' : ''}`} style={{ '--scroll-progress': scrollProgress }}>
       <div className="topbar-inner">

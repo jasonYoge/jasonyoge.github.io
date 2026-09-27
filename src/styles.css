@@ -14,8 +14,9 @@
 .lang { width: 38px; height: 38px; padding: 0; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); cursor: pointer; font-size: .72rem; transition: border-color .25s ease, background .25s ease; }
 .lang:hover { border-color: var(--red); background: oklch(0.57 .23 27 / .12); }
 .hero { position: relative; min-height: min(860px, 100vh); display: flex; align-items: flex-end; isolation: isolate; }
-.hero-photo { position: absolute; top: 10%; left: calc(50% - 37.5rem); width: min(40vw, 500px); aspect-ratio: 1; z-index: -2; border-radius: 50%; background: radial-gradient(circle at center, transparent 42%, oklch(.12 .005 30 / .18) 64%, var(--black) 78%), url('/assets/jasonyoge-photo.jpeg') 38% 25% / cover no-repeat; filter: saturate(.8) contrast(1.05); -webkit-mask-image: radial-gradient(circle at center, black 48%, oklch(0 0 0 / .94) 61%, transparent 78%); mask-image: radial-gradient(circle at center, black 48%, oklch(0 0 0 / .94) 61%, transparent 78%); }
-.hero-photo::before { content: ''; position: absolute; inset: -20%; z-index: -1; border-radius: 50%; background: radial-gradient(circle, oklch(.36 .08 190 / .4) 0%, oklch(.12 .005 30 / .18) 46%, transparent 72%); pointer-events: none; }
+.hero-photo { position: absolute; top: 10%; left: calc(50% - 37.5rem); width: min(40vw, 500px); aspect-ratio: 1; z-index: -2; border-radius: 50%; background: radial-gradient(circle at center, transparent 36%, oklch(.12 .005 30 / .16) 53%, oklch(.12 .005 30 / .72) 72%, var(--black) 88%), url('/assets/jasonyoge-photo.jpeg') 38% 25% / cover no-repeat; filter: saturate(.8) contrast(1.05); -webkit-mask-image: radial-gradient(circle at center, black 42%, oklch(0 0 0 / .9) 56%, oklch(0 0 0 / .4) 70%, transparent 84%); mask-image: radial-gradient(circle at center, black 42%, oklch(0 0 0 / .9) 56%, oklch(0 0 0 / .4) 70%, transparent 84%); }
+.hero-photo::before { content: ''; position: absolute; inset: -18%; z-index: -1; border-radius: 50%; background: radial-gradient(circle, oklch(.36 .08 190 / .32) 0%, oklch(.08 .005 30 / .52) 55%, transparent 76%); filter: blur(12px); pointer-events: none; }
+.hero-photo::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at var(--photo-light-x, 50%) var(--photo-light-y, 50%), oklch(.82 .07 190 / .14), transparent 28%); mix-blend-mode: screen; opacity: var(--photo-light, 0); transition: opacity 260ms ease; pointer-events: none; }
 .hero-gradient { position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle 25% at 29% 41%, oklch(.32 .06 190 / .18) 0%, transparent 72%), radial-gradient(ellipse 44% 70% at 30% 45%, transparent 0%, oklch(.12 .005 30 / .08) 58%, var(--black) 100%), linear-gradient(90deg, transparent 0%, oklch(.12 .005 30 / .06) 38%, oklch(.12 .005 30 / .4) 57%, var(--black) 79%), linear-gradient(0deg, var(--black) 0%, transparent 32%); }
 .hero-content { width: min(640px, 52vw); margin-left: auto; margin-right: calc(50% - 37.5rem); margin-bottom: clamp(4rem, 11vh, 9rem); }
 .kicker { display: flex; align-items: center; gap: .65rem; margin: 0 0 1.6rem; color: var(--muted); font-family: var(--display); font-size: .7rem; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; }
@@ -103,6 +104,7 @@ html { scroll-padding-top: 110px; }
 .career-card:focus-visible { transform: rotateY(var(--turn)); border-color: var(--red-bright); }
 .career-card:focus-visible .career-background::before { transform: translateX(0); }
 @media (hover: hover) and (pointer: fine) {
+  .hero-photo { transform: perspective(900px) translate3d(var(--photo-x, 0), var(--photo-y, 0), 0) rotateX(var(--photo-rotate-x, 0deg)) rotateY(var(--photo-rotate-y, 0deg)); transform-style: preserve-3d; transition: transform 280ms var(--ease-out-expo); will-change: transform; }
   .career-entry:hover .career-card { transform: rotateY(var(--turn)); border-color: var(--red-bright); }
   .career-entry:hover .career-background::before { transform: translateX(0); }
 }
@@ -122,7 +124,7 @@ html { scroll-padding-top: 110px; }
 
 @keyframes hero-photo-in {
   from { opacity: 0; scale: .92; filter: saturate(.35) blur(12px); }
-  to { opacity: 1; scale: 1; filter: saturate(.8) blur(0); }
+  to { opacity: 1; scale: 1; filter: saturate(.8) contrast(1.05) blur(0); }
 }
 @keyframes hero-copy-in {
   from { opacity: 0; transform: translate3d(28px, 18px, 0); }
@@ -144,6 +146,8 @@ html { scroll-padding-top: 110px; }
 @media (prefers-reduced-motion: reduce) {
   .motion-photo, .motion-copy, .motion-copy .kicker, .reveal.is-visible, .scroll-cue-line { animation: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; }
+  .hero-photo { transform: none !important; }
+  .hero-photo::after { opacity: 0 !important; }
 }
 
 /* Full-bleed navigation with breathing room for the fixed layer. */
