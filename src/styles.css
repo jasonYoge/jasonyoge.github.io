@@ -171,6 +171,7 @@ html { scroll-padding-top: 110px; }
 .works { display: grid; grid-template-columns: minmax(240px, .75fr) minmax(420px, 1.25fr); gap: clamp(3rem, 10vw, 9rem); padding-bottom: clamp(7rem, 14vw, 12rem); }
 .works-lead h2 { max-width: 400px; margin: 0; font-family: var(--display); font-size: clamp(2.2rem, 4vw, 4rem); line-height: 1.04; letter-spacing: -.03em; font-weight: 500; }
 .works-lead > p:last-child { max-width: 330px; margin: 2rem 0 0; color: var(--muted); font-size: .95rem; line-height: 1.8; }
+.work-list { display: grid; gap: clamp(3rem, 6vw, 5rem); min-width: 0; }
 .work-feature { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; min-height: 150px; padding: 0 0 1.5rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-decoration: none; transition: color .25s ease, border-color .25s ease; }
 .work-feature:hover { color: var(--red-bright); border-color: var(--red); }
 .work-shot { overflow: hidden; aspect-ratio: 16 / 8; background: oklch(.2 .01 30); }
@@ -193,8 +194,8 @@ html { scroll-padding-top: 110px; }
 .career-entry:nth-child(even) .timeline-item .company-line { justify-content: flex-start; }
 .career-entry:nth-child(even) .timeline-item .description { margin-left: 0; }
 .work-copy { grid-template-columns: 40px 1fr; }
-.work-arrow { grid-column: 2; grid-row: 2; justify-self: start; }
-.work-description { grid-column: 2; }
+.work-description { grid-column: 2; grid-row: 2; }
+.work-arrow { grid-column: 2; grid-row: 3; justify-self: start; }
 .works { grid-template-columns: 1fr; gap: 4rem; } }
 
 /* Viewport control lives outside the hero and leaves the reading column clear. */

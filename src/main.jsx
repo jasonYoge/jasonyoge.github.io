@@ -35,6 +35,27 @@ const jobs = [
   { years: ['2018.04', '2019.08'], company: '阿里巴巴 · 国际站', en: 'Alibaba · Alibaba.com', role: '前端工程师', enRole: 'Frontend Engineer', description: '参与国际站 CRM 与钉钉移动端的体验建设。', enDescription: 'Built CRM capabilities and mobile experiences for Alibaba.com.' }
 ];
 
+const projects = [
+  {
+    name: 'Booksmarky',
+    url: 'https://books-marky.com/',
+    image: '/assets/sidebar.png',
+    zhDescription: '用 AI 帮助整理 Chrome 书签',
+    enDescription: 'AI bookmark organization for Chrome',
+    zhAlt: 'Booksmarky Chrome 扩展界面',
+    enAlt: 'Booksmarky Chrome extension interface'
+  },
+  {
+    name: 'Model Ledger',
+    url: 'https://www.modelledger.trade/',
+    image: '/assets/model-ledger.png',
+    zhDescription: '可控的模型访问、预算与用量结算平台',
+    enDescription: 'Controlled model access, budgets, and usage settlement',
+    zhAlt: 'Model Ledger 模型访问平台首页',
+    enAlt: 'Model Ledger model access platform homepage'
+  }
+];
+
 function Icon({ name }) {
   const paths = { arrow: <><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></>, download: <><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></>, mail: <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></> };
   return <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">{paths[name]}</svg>;
@@ -120,7 +141,7 @@ function App() {
         <div className="career-stack"><CareerEntry current><div className="timeline-year"><span>2025.07</span><span>{en ? 'PRESENT' : '至今'}</span></div><div className="timeline-body"><div className="company-line"><h3>{t.opc}</h3><span className="current-tag">{t.now}</span></div><p className="role">{t.role}</p><p className="description">{t.opcText}</p></div></CareerEntry><div className="timeline">{jobs.map((job, index) => <CareerEntry index={index} key={job.company}><div className="timeline-year"><span>{job.years[0]}</span><span>{job.years[1]}</span></div><div className="timeline-body"><div className="company-line"><h3>{en ? job.en : job.company}</h3></div><p className="role">{en ? job.enRole : job.role}</p><p className="description">{en ? job.enDescription : job.description}</p></div></CareerEntry>)}</div></div>
       </section>
 
-      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><a className="work-feature reveal" href="https://books-marky.com/" target="_blank" rel="noreferrer"><div className="work-shot"><img loading="lazy" width="1600" height="800" src="/assets/sidebar.png" alt={en ? 'Booksmarky Chrome extension interface' : 'Booksmarky Chrome 扩展界面'} /></div><div className="work-copy"><span className="work-index">01</span><span className="work-name">Booksmarky</span><span className="work-description">{en ? 'AI bookmark organization for Chrome' : '用 AI 帮助整理 Chrome 书签'}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></div></a></section>
+      <section className="works wrap" id="works"><div className="works-lead"><p className="kicker"><span className="red-dot" />{t.works}</p><h2>{t.workTitle}</h2><p>{t.workText}</p></div><div className="work-list">{projects.map((project, index) => <a className="work-feature reveal" style={{ '--reveal-delay': `${index * 90}ms` }} href={project.url} target="_blank" rel="noreferrer" key={project.name}><div className="work-shot"><img loading="lazy" width="1600" height="800" src={project.image} alt={en ? project.enAlt : project.zhAlt} /></div><div className="work-copy"><span className="work-index">{String(index + 1).padStart(2, '0')}</span><span className="work-name">{project.name}</span><span className="work-description">{en ? project.enDescription : project.zhDescription}</span><span className="work-arrow">{t.visit} <Icon name="arrow" /></span></div></a>)}</div></section>
 
       <section className="details wrap reveal"><div><p className="kicker">{t.education}</p><p className="detail-title">{t.school} <span>· {t.major}</span></p><p className="detail-meta">2015.09 — 2018.06 · {t.degree}</p></div><div><p className="kicker">{t.skills}</p><div className="skills"><span>React</span><span>TypeScript</span><span>Node.js</span><span>Garfish</span><span>GraphQL</span><span>AWS</span></div></div></section>
 
